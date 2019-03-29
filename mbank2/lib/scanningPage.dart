@@ -21,6 +21,7 @@ class _Scanning extends State<Scanning> {
 
   final key = 'private!!!!!!!!!';
   final iv = '8bytesiv';
+  String dialogText;
 
   List<String> dataSetPhone = [];
   List<String> dataSetAccount = [];
@@ -58,6 +59,8 @@ class _Scanning extends State<Scanning> {
         dataSetPhone.add(encrypter.decrypt(data[key]['Phone_no']));
       }
     });
+
+   print(dataSetAccount);
   }
 
 @override
@@ -71,7 +74,7 @@ class _Scanning extends State<Scanning> {
 
     return new Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Color(0xFF424242),
+        backgroundColor: Colors.black,
         body: SingleChildScrollView(
             child: new ConstrainedBox(
               constraints: BoxConstraints(maxHeight: 672),
@@ -191,48 +194,91 @@ class _Scanning extends State<Scanning> {
   }
 
 
+  void onDismiss(){
+    Navigator.pop(context);
+  }
+
+  Dialog createDialog(bool loadingbar,bool button) {
+    return  Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0),
+      ),
+      //this right here
+      child: Container(
+        height: 250.0,
+        width: 350.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 25, right: 25, top: 25,),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(dialogText,style: TextStyle(fontSize: 18),),
+
+                    Padding(padding: EdgeInsets.only(top: 20),),
+
+                    loadingbar?Center(child: CircularProgressIndicator(),):Container(),
+
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            child:Container(
+                              height:1,
+                              margin: EdgeInsets.only(left: 15,right:15),
+                              color: Colors.black,
+                            ))
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+                    button?RaisedButton(onPressed: onDismiss,
+                        elevation: 0.0,
+                        color: Colors.redAccent,
+                        textColor: Colors.white,
+                        child: new Text("Dismiss",style: TextStyle(fontSize: 12)),
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
+                    ):Container()
+                  ],
+                )
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   void registerPage() async {
 
     final FormState form = _formKey.currentState;
     var nav = context;
     if(form.validate()){
-    showMessage("We are checking for the details",Colors.green);
+      dialogText = "We are checking for your details. Please wait.....";
+      showDialog(context: context, builder: (BuildContext context) => createDialog(true,false));
+
       await checkingForInfo();
       form.save();
       if(dataSetPhone.contains(phone.text) && dataSetAccount.contains(account.text)){
         accountDetail = account.text;
         phoneDetail= phone.text;
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Registration()),);
+        Future.delayed(Duration(seconds: 3),(){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Registration()),);
+
+        });
+
       }
       else{
-        showDialog(context: nav,builder: (BuildContext context){
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Your account no or phone no is wrong"),
-            actions: <Widget>[
-              FlatButton(
-                child:  Text("Close"),
-                onPressed: (){Navigator.of(context).pop();},
-              )
-            ],
-          );
-        });
+        onDismiss();
+        dialogText = "Your account no or phone no is not correct. Please check again and enter...";
+        showDialog(context: context, builder: (BuildContext context) => createDialog(false,true));
       }
     }
     else{
-      showDialog(context: nav,builder: (BuildContext context){
-        return AlertDialog(
-          title: Text("Error"),
-          content: Text("Please enter the details"),
-          actions: <Widget>[
-            FlatButton(
-              child:  Text("Close"),
-              onPressed: (){Navigator.of(context).pop();},
-            )
-          ],
-        );
-      });
+      dialogText = "All the details are mandantory. Please fill in the details...";
+      showDialog(context: context, builder: (BuildContext context) => createDialog(false,true));
+
     }
   }
 

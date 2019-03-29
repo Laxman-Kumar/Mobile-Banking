@@ -26,9 +26,12 @@ dependencies:
   encrypt: ^1.0.1
   shared_preferences: ^0.5.0
   intl: ^0.15.7
-
+  google_maps_flutter: ^0.0.3
   pdf: ^1.1.6
   path_provider: ^0.5.0+1
+  location: ^1.4.1
+  flutter_google_places: ^0.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -50,6 +53,12 @@ flutter:
    - assests/add.png
    - assests/settings.png
    - assests/shutdown.png
+   - create.png
+   - deposit.png
+   - phone.png
+   - view.png
+   - withdraw.png
+   - search.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

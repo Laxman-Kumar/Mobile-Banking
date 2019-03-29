@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mbank2/dashboard.dart';
-import 'package:mbank2/admin/CreateTransaction.dart';
+
 import 'package:encrypt/encrypt.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,7 +88,64 @@ class Log{
         );
 
       }}catch(e){
+
+      dialogText = e.message;
+
+      showDialog(context: nav, builder: (BuildContext context) => createDialog());
+
       print(e.message);
     }
   }
+
+  String dialogText;
+
+  Dialog createDialog() {
+    return  Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35.0),
+      ),
+      //this right here
+      child: Container(
+        height: 280.0,
+        width: 350.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 25, right: 25, top: 25,),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(dialogText,style: TextStyle(fontSize: 21),),
+
+                    Padding(padding: EdgeInsets.only(top: 20),),
+
+
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+                    Container(
+                      height: 50,
+                      width: 150,
+                      child:  RaisedButton(onPressed: onDismiss,
+                          elevation: 0.0,
+                          color: Colors.redAccent,
+                          textColor: Colors.white,
+                          child: new Text("Dismiss",style: TextStyle(fontSize: 12)),
+                          shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0))
+                      ),
+                    )
+
+                  ],
+                )
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void onDismiss(){
+    Navigator.pop(nav);
+  }
+
 }

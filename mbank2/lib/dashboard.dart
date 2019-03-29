@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mbank2/admin/CreateTransaction.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,6 +12,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:mbank2/LocateAtm.dart';
 
 class dashboard extends StatefulWidget{
   FirebaseUser user;
@@ -119,73 +119,95 @@ class _dashboard extends State<dashboard>{
       print("Settings registered: $settings");
     });
   }
-  void choicesSecond(choice) async{
 
-    if(choice=='2'){
-      print(choice.toString());
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
-    }
-    if(choice=='1'){
-      print(choice.toString());
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateTransaction()));
-    }
-  }
 
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        backgroundColor: Color(0xFF424242),
+        backgroundColor:Colors.black,
 
 
-        appBar:PreferredSize(preferredSize: Size.fromHeight(40.0),child:  AppBar(
+        appBar:  AppBar(
           title: Text("Dashboard",style: TextStyle(color: Colors.white),),
-          backgroundColor: Color(0xFFE64751),
+          backgroundColor: Color(0xFFD32F2F),
           elevation: 0.0,
           actions: <Widget>[
 
-            new PopupMenuButton(
-                icon:Icon(Icons.settings,color: Colors.white,size: 20,),
-                tooltip: 'settings',
-                onSelected: choicesSecond,
-                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
 
-                  PopupMenuItem(value: "1", child: Row(children: <Widget>[
-                    Expanded(flex: 1, child:Image.asset("assests/add.png",color: Colors.redAccent,width: 30,height: 30,)),
-                    Expanded(flex: 1,child: Container(),),
-                    Expanded(flex: 4, child: Text("Create Transaction",style: TextStyle (color:Colors.redAccent ),),)],),),
+              },
+            ),
 
-                  PopupMenuDivider(height: 20),
-
-                  PopupMenuItem(value: "2", child: Row(children: <Widget>[
-                    Expanded(flex: 1, child:Image.asset("assests/shutdown.png",width: 30,height: 30,color: Colors.redAccent,)),
-                    Expanded(flex: 1,child: Container(),),
-                    Expanded(flex: 4, child: Text("Log out",style: TextStyle (color:Colors.redAccent ),),)],),),
-
-                ]),
           ],
-        )),
+        ),
 
 
 
-        body: Column(
+        body: SingleChildScrollView(child:
+        Column(
          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 20),
           ),
-            Container(
-            child: Text("Welcome "+username.toUpperCase(),style: TextStyle(fontSize: 26,color: Colors.white),),
+
+            Row(
+              children: <Widget>[
+
+                Padding(
+                  padding: EdgeInsets.only(left: 16.0),
+                ),
+                Expanded(
+
+                  child: Container(
+                      decoration: BoxDecoration(
+                        // Box decoration takes a gradient
+                       color: Color(0xFF03A9F4),
+                      ),
+
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                        ),
+                        Container(
+                          child: Text("Welcome "+username,style: TextStyle(fontSize: 26,color: Colors.white),),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16.0),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text("Account No "+accountNo,style: TextStyle(fontSize: 18,color: Colors.black),),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16.0),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text("Current Balance "+currentBalance,style: TextStyle(fontSize: 18,color:Colors.black),),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                        ),
+                      ],
+
+                    )
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 16.0),
+                )
+              ],
+
             ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Text("Account No "+accountNo,style: TextStyle(fontSize: 18,color: Colors.white),),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Text("Current Balance "+currentBalance,style: TextStyle(fontSize: 18,color: Colors.white),),
-          ),
+
+
 
           Padding(
             padding: EdgeInsets.only(top: 50),
@@ -234,13 +256,17 @@ class _dashboard extends State<dashboard>{
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 15),
+              ),  Container(
+                height: 80,
+                color:Color(0xFF935116),
+                child: Image.asset("assests/withdraw.png",color: Colors.white,),
               ),
               Expanded(
                   child: Container(
                     height: 80,
-                    child: FlatButton(onPressed: (){},
-                      textColor: Colors.white,
-                      color: Colors.redAccent,
+                    child: FlatButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context) => LocateAtm()));},
+                      textColor: Colors.white,highlightColor: Colors.black38,
+                      color: Color(0xFFEB984E),
                       child: new Text("Locate ATM",style: TextStyle(fontSize: 20)),
 
                     ),
@@ -252,23 +278,88 @@ class _dashboard extends State<dashboard>{
             ],
           ),
 
-          Expanded(
-            child: Container(),
-          )  ,
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+          ),
+
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+              ),
+              Container(
+                padding: EdgeInsets.all(4.0),
+                height: 80,
+                color: Color(0xFF196F3D),
+                child: Image.asset("assests/deposit.png",color: Colors.white,),
+              ),
+              Expanded(
+                  child: Container(
+                    height: 80,
+
+                    child: FlatButton(onPressed: (){},
+                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF1E8449),
+                      child: new Text("Change phone number",style: TextStyle(fontSize: 20)),
+
+                    ),
+
+                  )),
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+              ),
+            ],
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+          ),
+
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+              ),
+              Container(
+                height: 80,
+                color: Color(0xFF154360),
+                child: Image.asset("assests/create.png",color: Colors.white,),
+              ),
+              Expanded(
+                  child: Container(
+                    height: 80,
+
+                    child: FlatButton(onPressed: (){},
+                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF2471A3),
+                      child: new Text("Change password",style: TextStyle(fontSize: 20)),
+
+                    ),
+
+                  )),
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+              ),
+            ],
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+          ),
+
             Container(
+
               child: Text("© Copyright Laxman Kumar",style: TextStyle(fontSize: 20,color: Colors.white70),),
             ),
           Padding(
             padding: EdgeInsets.only(bottom: 20),
           ),
           ],
-        )
+        ))
     );
 
   }
 
   void createTransaction(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateTransaction()));//(user: user)));
+
 
   }
 
@@ -329,10 +420,11 @@ class _dashboard extends State<dashboard>{
         var data = snapshot.value;
         for ( var key1 in keys ) {
           var t1 = data[key1];
+         // print(t1);
           dd.add(t1.toString());
         }
       });
-      CustomerClass obj = CustomerClass(time: DateTime.parse(dd[3]), type: dd[1], currentBal: dd[5], amount: dd[2], uid: dd[0]);
+      CustomerClass obj = CustomerClass(time: DateTime.parse(dd[4]), type: dd[1], currentBal: dd[3], amount: dd[2], uid: dd[0]);
 
         data.add(obj);
 

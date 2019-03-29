@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mbank2/login.dart';
 import 'package:mbank2/registration.dart';
-import 'package:mbank2/admin/Adding_data.dart';
 import 'package:mbank2/scanningPage.dart';
-import 'package:mbank2/admin/CreateTransaction.dart';
 import 'package:mbank2/dashboard.dart';
 void main() {
 
@@ -27,7 +25,8 @@ class MyApp extends StatelessWidget {
           )
 
       ),
-      home:Login(),
+     // home:Login(),
+      home:dashboard(),
       //home: CreateTransaction(),
       routes: <String, WidgetBuilder> {
         '/registration': (BuildContext context) => new Registration(),

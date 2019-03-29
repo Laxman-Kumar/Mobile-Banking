@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:mbank2/login.dart';
 import 'package:encrypt/encrypt.dart';
-
+import 'package:mbank2/globals.dart';
 
 
 class Register{
@@ -40,7 +40,6 @@ class Register{
       user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.trim(), password: password.trim())
           .then((FirebaseUser user) {user.sendEmailVerification();});
 
-      Navigator.pushReplacement(nav, MaterialPageRoute(builder: (context) => new Login()));
 
     }
     catch (e)
@@ -54,7 +53,7 @@ class Register{
       if (user != null)
       {
         final uid = user.uid;
-        db.child("registered_data").child(uid).set({
+        await db.child("registered_data").child(uid).set({
           'Username': encrypter.encrypt(username),
           'Password': encrypter.encrypt(password),
           'Phone_no': encrypter.encrypt(phonenum),
@@ -62,6 +61,13 @@ class Register{
           'Account_no': encrypter.encrypt(account),
           'uid': uid
         });
+
+        await db.child('account_details').child(keyUpdate).update(
+            {"netBanking":true});
+
+
+        Navigator.pushReplacement(nav, MaterialPageRoute(builder: (context) => new Login()));
+
       }else
       {
         print("null");

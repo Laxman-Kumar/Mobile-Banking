@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mbank2/globals.dart';
 import 'package:flutter/services.dart';
 import 'package:mbank2/controller/registrationClass.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:encrypt/encrypt.dart';
 
 class Registration extends StatefulWidget{
   Registration({Key key}) : super(key: key);
@@ -20,7 +23,7 @@ class _RegistrationPage extends State<Registration> {
   TextEditingController password= new TextEditingController();
  bool autoValid = false;
 
-
+  String dialogText;
   void cancel(){
     Navigator.pop(context);
   }
@@ -30,7 +33,7 @@ class _RegistrationPage extends State<Registration> {
   Widget build(BuildContext context) {
    return new Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Color(0xFF424242),
+        backgroundColor: Colors.black,
         body: SingleChildScrollView(
             child: new ConstrainedBox(
               constraints: BoxConstraints(maxHeight: 672),
@@ -187,21 +190,108 @@ class _RegistrationPage extends State<Registration> {
 
   }
 
+  void onDismiss(){
+    Navigator.pop(context);
+  }
+
+  Dialog createDialog(bool loadingbar,bool button) {
+    return  Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0),
+      ),
+      //this right here
+      child: Container(
+        height: 250.0,
+        width: 350.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 25, right: 25, top: 25,),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(dialogText,style: TextStyle(fontSize: 18),),
+
+                    Padding(padding: EdgeInsets.only(top: 20),),
+
+                    loadingbar?Center(child: CircularProgressIndicator(),):Container(),
+
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            child:Container(
+                              height:1,
+                              margin: EdgeInsets.only(left: 15,right:15),
+                              color: Colors.black,
+                            ))
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+                    button?RaisedButton(onPressed: onDismiss,
+                        elevation: 0.0,
+                        color: Colors.redAccent,
+                        textColor: Colors.white,
+                        child: new Text("Dismiss",style: TextStyle(fontSize: 12)),
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
+                    ):Container()
+                  ],
+                )
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Future<void> checkingForInfo() async {
+
+    final key = 'private!!!!!!!!!';
+    final iv = '8bytesiv';
+    final encrypter =new Encrypter(new Salsa20(key, iv));
+    DatabaseReference db = FirebaseDatabase.instance.reference();
+
+    await db.child('account_details').once().then((DataSnapshot snapshot){
+      var keys = snapshot.value.keys;
+      var data = snapshot.value;
+      print(keys);
+      for (var key in keys){
+        var x = encrypter.decrypt(data[key]['Account_no']);
+        if(x == accountDetail ){
+          keyUpdate =key ;
+        }
+      }});
+  }
 
 
   void registerPage() async{
     final FormState form = _formKey.currentState;
     var nav = context;
     if(form.validate()){
-      showMessage("We are completing the registration process.... Please wait",Colors.green);
+      print("fsdfjdsfjkhdskfhdskfhdksfhkdsfhdsfhdksfhkdsfhkdshfkdshfkdsfhkdsfhksdf");
+      dialogText = "Registration is in process. Please wait.....";
+      showDialog(context: context, builder: (BuildContext context) => createDialog(true,false));
+
+      await checkingForInfo();
       form.save();
       Register obj = new Register(username.text, email.text, password.text, phoneDetail, accountDetail, nav);
-      obj.reg();
+
+      Future.delayed(Duration(seconds: 3),(){
+        obj.reg();
+      });
+
+
 
     }
     else{
       autoValid=true;
-      showMessage("Please enter correct details",Colors.red);
+
+      dialogText = "Please enter the correct details";
+      showDialog(context: context, builder: (BuildContext context) => createDialog(false,true));
+
     }
   }
   void showMessage(String message, [MaterialColor color = Colors.red]) {

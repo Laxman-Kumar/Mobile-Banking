@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mbank2/admin/Adding_data.dart';
+
 import 'package:mbank2/scanningPage.dart';
 import 'package:mbank2/controller/loginController.dart';
 
@@ -69,7 +69,8 @@ bool autovalid=false;
 
     return new Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Color(0xFF424242),
+        backgroundColor: Colors.black
+        ,
         body: SingleChildScrollView(
             child:new ConstrainedBox(constraints: BoxConstraints(maxHeight: 672 )
               ,child:Column(
@@ -214,9 +215,5 @@ bool autovalid=false;
 
   void helpPage(){
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>AddingData()),
-    );
   }
 }
