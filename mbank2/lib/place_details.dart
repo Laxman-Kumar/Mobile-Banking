@@ -83,7 +83,7 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
     }
 
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Color(0xFFD32F2F),
           title: Text(title),
@@ -137,7 +137,7 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
     if (placeDetail.photos != null) {
       final photos = placeDetail.photos;
       list.add(SizedBox(
-          height: 200.0,
+          height: 100.0,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: photos.length,
@@ -145,7 +145,7 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
                 return Padding(
                     padding: EdgeInsets.only(right: 4.0),
                     child: SizedBox(
-                      height: 200,
+                      height: 100,
                       child: Image.network(
                           buildPhotoURL(photos[index].photoReference)),
                     ));
@@ -158,7 +158,7 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
           EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
           child: Text(
             placeDetail.name,
-            style: TextStyle(color: Colors.white,fontSize: 24),
+            style: TextStyle(fontSize: 18),
           )),
     );
 
@@ -169,7 +169,7 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
             EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
             child: Text(
               placeDetail.formattedAddress,
-              style: TextStyle(color: Colors.white,fontSize: 18),
+              style: TextStyle(fontSize: 16),
             )),
       );
     }
@@ -181,7 +181,7 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
             EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 0.0),
             child: Text(
               placeDetail.types.first.toUpperCase(),
-              style: TextStyle(color: Colors.white,fontSize: 18),
+              style: TextStyle(fontSize: 16),
             )),
       );
     }
@@ -193,7 +193,6 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
             EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
             child: Text(
               placeDetail.formattedPhoneNumber,
-              style: TextStyle(color: Colors.white),
             )),
       );
     }
@@ -212,7 +211,7 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
             EdgeInsets.only(top: 0.0, left: 8.0, right: 8.0, bottom: 4.0),
             child: Text(
               text,
-              style: TextStyle(color: Colors.white),
+
             )),
       );
     }

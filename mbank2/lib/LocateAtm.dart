@@ -40,7 +40,7 @@ class _LocateAtm extends State<LocateAtm> {
 
     return Scaffold(
         key: atmScaffoldKey,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Color(0xFFD32F2F),
           title: const Text("Nearby Atm"),
@@ -64,7 +64,6 @@ class _LocateAtm extends State<LocateAtm> {
 
             flex: 1,
               child:Container(
-                padding: EdgeInsets.all(8.0),
                 child:     GoogleMap(
                     onMapCreated: _onMapCreated,
                     options: GoogleMapOptions(

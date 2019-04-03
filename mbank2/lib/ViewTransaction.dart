@@ -35,15 +35,15 @@ class _ViewTransaction extends State<ViewTransaction>{
   Widget build(BuildContext context) {
     data.sort((a, b) => a.time.compareTo(b.time));
     return new Scaffold(
-        backgroundColor: Color(0xFF424242),
+        backgroundColor: Colors.white,
 
-      appBar:PreferredSize(preferredSize: Size.fromHeight(40.0),child:  AppBar(
+      appBar: AppBar(
       title: Text("View Transaction",style: TextStyle(color: Colors.white),),
       backgroundColor: Color(0xFFE64751),
       elevation: 0.0,
       actions: <Widget>[
       ],
-     )),
+     ),
 
       body:
       Column(
@@ -56,22 +56,24 @@ class _ViewTransaction extends State<ViewTransaction>{
 
           Row(
             children: <Widget>[
-
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+              ),
               Expanded(
                 flex:1,
-                child: Text("Date",style: TextStyle(color: Colors.white),),
+                child: Text("Date"),
               ),
 
               Expanded( flex:2,
-                child: Text("UID",style: TextStyle(color: Colors.white),),
+                child: Text("UID"),
               ),
 
-              Expanded(child: Text("Debit/Credit",style: TextStyle(color: Colors.white),),
+              Expanded(child: Text("Debit/Credit"),
                 flex:1,
               ),
 
               Expanded( flex:1,
-                child: Text("Current Balance",style: TextStyle(color: Colors.white),),
+                child: Text("Current Balance"),
               ),
 
             ],
@@ -107,20 +109,23 @@ class _ViewTransaction extends State<ViewTransaction>{
                     children: <Widget>[
                       Row(
                         children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                          ),
                           Expanded(
                               flex:1,
                               child: Column(
                                 children: <Widget>[
-                                  Text(formatter.format(data2[index].time) ,style: TextStyle(color: Colors.white),),
-                                  Text(formatter2.format(data2[index].time) ,style: TextStyle(color: Colors.white),),
+                                  Text(formatter.format(data2[index].time) ,),
+                                  Text(formatter2.format(data2[index].time) ),
                                 ],
                               )
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 5),
+                            padding: EdgeInsets.only(left: 10),
                           ),
                           Expanded( flex:2,
-                            child: Text(data2[index].uid.substring(1,20),style: TextStyle(color: Colors.white),),
+                            child: Text(data2[index].uid.substring(1,20)),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
@@ -130,7 +135,7 @@ class _ViewTransaction extends State<ViewTransaction>{
                           ),
 
                           Expanded( flex:1,
-                            child: Text(data2[index].currentBal,style: TextStyle(color: Colors.white),),
+                            child: Text(data2[index].currentBal),
                           ),
 
 
@@ -147,7 +152,7 @@ class _ViewTransaction extends State<ViewTransaction>{
                               child:Container(
                                 height:1,
                                 margin: EdgeInsets.only(left: 15,right:15),
-                                color: Colors.white,
+                                color: Colors.black26,
                               ))
                         ],
                       ),

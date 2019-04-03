@@ -13,6 +13,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:mbank2/LocateAtm.dart';
+import 'package:mbank2/ViewBeneficiary.dart';
+import 'package:mbank2/TransferFunds.dart';
+
 
 class dashboard extends StatefulWidget{
   FirebaseUser user;
@@ -125,7 +128,7 @@ class _dashboard extends State<dashboard>{
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        backgroundColor:Colors.black,
+        backgroundColor:Colors.white,
 
 
         appBar:  AppBar(
@@ -135,7 +138,7 @@ class _dashboard extends State<dashboard>{
           actions: <Widget>[
 
             IconButton(
-              icon: Icon(Icons.settings),
+              icon: ImageIcon(AssetImage('assests/logout.png'),size :21),
               onPressed: () {
 
               },
@@ -152,15 +155,13 @@ class _dashboard extends State<dashboard>{
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 8),
           ),
 
             Row(
               children: <Widget>[
 
-                Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                ),
+
                 Expanded(
 
                   child: Container(
@@ -173,36 +174,33 @@ class _dashboard extends State<dashboard>{
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(top: 8.0),
+                          padding: EdgeInsets.only(top: 6.0),
                         ),
                         Container(
-                          child: Text("Welcome "+username,style: TextStyle(fontSize: 26,color: Colors.white),),
+                          child: Text("Welcome "+username,style: TextStyle(fontSize: 24,color: Colors.white),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 16.0),
+                          padding: EdgeInsets.only(top: 6.0),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text("Account No "+accountNo,style: TextStyle(fontSize: 18,color: Colors.black),),
+                          margin: EdgeInsets.only(top: 6),
+                          child: Text("Account No "+accountNo,style: TextStyle(fontSize: 16,color: Colors.black),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 16.0),
+                          padding: EdgeInsets.only(top: 6.0),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text("Current Balance "+currentBalance,style: TextStyle(fontSize: 18,color:Colors.black),),
+                          margin: EdgeInsets.only(top: 6),
+                          child: Text("Current Balance "+currentBalance,style: TextStyle(fontSize: 16,color:Colors.black),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 8.0),
+                          padding: EdgeInsets.only(top: 6.0),
                         ),
                       ],
 
                     )
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                )
               ],
 
             ),
@@ -210,20 +208,18 @@ class _dashboard extends State<dashboard>{
 
 
           Padding(
-            padding: EdgeInsets.only(top: 50),
+            padding: EdgeInsets.only(top: 18),
           ),
           Row(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-              ),
+
               Expanded(
                   child: Container(
-                    height: 80,
+                    height: 60,
                     child: FlatButton(onPressed: viewTransaction,
                       textColor: Colors.white,
                       color: Colors.redAccent,
-                      child: new Text("View Transactions",style: TextStyle(fontSize: 20)),
+                      child: new Text("View Transactions",style: TextStyle(fontSize: 18)),
 
                     ),
 
@@ -234,36 +230,88 @@ class _dashboard extends State<dashboard>{
 
               Expanded(
                   child: Container(
-                    height: 80,
+                    height: 60,
                     child: FlatButton(onPressed: downTransaction,
                       textColor: Colors.white,
                       color: Colors.redAccent,
-                      child: new Text("Download Transactions",style: TextStyle(fontSize: 20)),
+                      child: new Text("Download Transactions",style: TextStyle(fontSize: 18)),
 
                     ),
 
                   )),
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-              ),
+
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 10),
           ),
 
           Row(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-              ),  Container(
-                height: 80,
-                color:Color(0xFF935116),
-                child: Image.asset("assests/withdraw.png",color: Colors.white,),
+
+              Container(
+                padding: EdgeInsets.all(4.0),
+                height: 60,
+                color: Color(0xFF196F3D),
+                child: Image.asset("assests/add_bene.png",color: Colors.white,),
               ),
               Expanded(
                   child: Container(
-                    height: 80,
+                    height: 60,
+
+                    child: FlatButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => ViewBeneficiary()));},
+                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF1E8449),
+                      child: new Text("Add/Manage Beneficiary",style: TextStyle(fontSize: 18)),
+
+                    ),
+
+                  )),
+
+            ],
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+          ),
+
+
+          Row(
+            children: <Widget>[
+              Container(
+                height: 60,
+                color:Color(0xFF935116),
+                child: Image.asset("assests/transfer.png",color: Colors.white,),
+              ),
+              Expanded(
+                  child: Container(
+                    height: 60,
+                    child: FlatButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context) => TransferMoney()));},
+                      textColor: Colors.white,highlightColor: Colors.black38,
+                      color: Color(0xFFEB984E),
+                      child: new Text("Transfer money",style: TextStyle(fontSize: 20)),
+
+                    ),
+
+                  )),
+
+            ],
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+          ),
+
+
+          Row(
+            children: <Widget>[
+               Container(
+                height: 60,
+                color:Color(0xFF935116),
+                child: Image.asset("assests/locate.png"),
+              ),
+              Expanded(
+                  child: Container(
+                    height: 60,
                     child: FlatButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context) => LocateAtm()));},
                       textColor: Colors.white,highlightColor: Colors.black38,
                       color: Color(0xFFEB984E),
@@ -272,30 +320,28 @@ class _dashboard extends State<dashboard>{
                     ),
 
                   )),
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-              ),
+
             ],
           ),
 
+
+
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 10),
           ),
 
           Row(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-              ),
+
               Container(
                 padding: EdgeInsets.all(4.0),
-                height: 80,
+                height: 60,
                 color: Color(0xFF196F3D),
                 child: Image.asset("assests/deposit.png",color: Colors.white,),
               ),
               Expanded(
                   child: Container(
-                    height: 80,
+                    height: 60,
 
                     child: FlatButton(onPressed: (){},
                       textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF1E8449),
@@ -304,29 +350,25 @@ class _dashboard extends State<dashboard>{
                     ),
 
                   )),
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-              ),
+
             ],
           ),
 
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 10),
           ),
 
           Row(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-              ),
+
               Container(
-                height: 80,
+                height: 60,
                 color: Color(0xFF154360),
-                child: Image.asset("assests/create.png",color: Colors.white,),
+                child: Image.asset("assests/change_pass.png",color: Colors.white,),
               ),
               Expanded(
                   child: Container(
-                    height: 80,
+                    height: 60,
 
                     child: FlatButton(onPressed: (){},
                       textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF2471A3),
@@ -335,19 +377,17 @@ class _dashboard extends State<dashboard>{
                     ),
 
                   )),
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-              ),
+
             ],
           ),
 
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 10),
           ),
 
             Container(
 
-              child: Text("© Copyright Laxman Kumar",style: TextStyle(fontSize: 20,color: Colors.white70),),
+              child: Text("© Copyright ICT GNU",style: TextStyle(fontSize: 16)),
             ),
           Padding(
             padding: EdgeInsets.only(bottom: 20),
@@ -420,11 +460,11 @@ class _dashboard extends State<dashboard>{
         var data = snapshot.value;
         for ( var key1 in keys ) {
           var t1 = data[key1];
-         // print(t1);
+          //print(t1);
           dd.add(t1.toString());
         }
       });
-      CustomerClass obj = CustomerClass(time: DateTime.parse(dd[4]), type: dd[1], currentBal: dd[3], amount: dd[2], uid: dd[0]);
+      CustomerClass obj = CustomerClass(time: DateTime.parse(dd[3]), type: dd[1], currentBal: dd[4], amount: dd[2], uid: dd[0]);
 
         data.add(obj);
 
