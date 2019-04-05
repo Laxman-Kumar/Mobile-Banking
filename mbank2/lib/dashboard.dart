@@ -225,23 +225,28 @@ class _dashboard extends State<dashboard>{
 
 
 
-        body: SingleChildScrollView(child:
+        body: SingleChildScrollView(
+            child:
         Column(
          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top: 8),
+            padding: EdgeInsets.all(8),
           ),
 
             Row(
               children: <Widget>[
-
+                Padding(
+                  padding: EdgeInsets.only(left: 8),
+                ),
 
                 Expanded(
 
                   child: Container(
+
                       decoration: BoxDecoration(
+                            borderRadius: new BorderRadius.all(Radius.circular(12.0),),
                         // Box decoration takes a gradient
                        color: Color(0xFF03A9F4),
                       ),
@@ -250,7 +255,7 @@ class _dashboard extends State<dashboard>{
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(top: 6.0),
+                          padding: EdgeInsets.only(top: 6.0,left:8 ),
                         ),
                         Container(
                           child: Text("Welcome "+username,style: TextStyle(fontSize: 24,color: Colors.white),),
@@ -270,12 +275,16 @@ class _dashboard extends State<dashboard>{
                           child: Text("Current Balance "+currentBalance,style: TextStyle(fontSize: 16,color:Colors.black),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 6.0),
+                          padding: EdgeInsets.only(top: 6.0,right: 8),
                         ),
                       ],
 
                     )
                   ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(left: 8),
                 ),
               ],
 
@@ -288,13 +297,18 @@ class _dashboard extends State<dashboard>{
           ),
           Row(
             children: <Widget>[
-
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+              ),
               Expanded(
                   child: Container(
                     height: 60,
+                    decoration: new BoxDecoration(
+                        color: Color(0xFF2f569b),
+                        borderRadius: new BorderRadius.all(Radius.circular(12.0),)
+                    ),
                     child: FlatButton(onPressed: viewTransaction,
                       textColor: Colors.white,
-                      color:  Color(0xFFbf2b46),
                       child: new Text("View Transactions",style: TextStyle(fontSize: 18)),
 
                     ),
@@ -307,15 +321,21 @@ class _dashboard extends State<dashboard>{
               Expanded(
                   child: Container(
                     height: 60,
+                    decoration: new BoxDecoration(
+                        color: Color(0xFF2f569b),
+                        borderRadius: new BorderRadius.all(Radius.circular(12.0),)
+                    ),
                     child: FlatButton(onPressed: downTransaction,
                       textColor: Colors.white,
-                      color: Color(0xFFbf2b46),
+
                       child: new Text("Download Transactions",style: TextStyle(fontSize: 18)),
 
                     ),
 
                   )),
-
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+              ),
             ],
           ),
           Padding(
@@ -324,25 +344,37 @@ class _dashboard extends State<dashboard>{
 
           Row(
             children: <Widget>[
-
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+              ),
               Container(
                 padding: EdgeInsets.all(4.0),
-                height: 60,
-                color: Color(0xFF154360),
+                height: 60,width: 60,
+                decoration: new BoxDecoration(
+                    color: Color(0xFFf22e62),
+                    borderRadius: new BorderRadius.all(Radius.circular(20.0),)
+                ),
                 child: Image.asset("assests/add_bene.png",color: Colors.white,),
+              ),Padding(
+                padding: EdgeInsets.only(left: 8),
               ),
               Expanded(
                   child: Container(
                     height: 60,
-
+                    decoration: new BoxDecoration(
+                        color: Color(0xFF2E86C1),
+                        borderRadius: new BorderRadius.all(Radius.circular(15.0),)
+                    ),
                     child: FlatButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => ViewBeneficiary()));},
-                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF2471A3),
+                      textColor: Colors.white,highlightColor: Colors.black38,
                       child: new Text("Add/Manage Beneficiary",style: TextStyle(fontSize: 18)),
 
                     ),
 
                   )),
-
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+              ),
             ],
           ),
 
@@ -352,24 +384,36 @@ class _dashboard extends State<dashboard>{
 
 
           Row(
-            children: <Widget>[
+            children: <Widget>[  Padding(
+              padding: EdgeInsets.only(left: 8),
+            ),
               Container(
-                height: 60,
-                color:Color(0xFF154360),
+                height: 60,padding: EdgeInsets.all(8),
+                decoration: new BoxDecoration(
+                    color: Color(0xFFf22e62),
+                    borderRadius: new BorderRadius.all(Radius.circular(20.0),)
+                ),
                 child: Image.asset("assests/transfer.png",color: Colors.white,),
-              ),
+              ),Padding(
+              padding: EdgeInsets.only(left: 8),
+            ),
               Expanded(
                   child: Container(
-                    height: 60,
+                    height: 60, decoration: new BoxDecoration(
+                      color: Color(0xFF2E86C1),
+                      borderRadius: new BorderRadius.all(Radius.circular(15.0),)
+                  ),
                     child: FlatButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context) => TransferMoney()));},
                       textColor: Colors.white,highlightColor: Colors.black38,
-                      color: Color(0xFF2471A3),
+
                       child: new Text("Transfer money",style: TextStyle(fontSize: 20)),
 
                     ),
 
                   )),
-
+            Padding(
+              padding: EdgeInsets.only(left: 8),
+            ),
             ],
           ),
 
@@ -379,24 +423,37 @@ class _dashboard extends State<dashboard>{
 
 
           Row(
-            children: <Widget>[
+            children: <Widget>[  Padding(
+              padding: EdgeInsets.only(left: 8),
+            ),
                Container(
-                height: 60,
-                color:Color(0xFF154360),
+                height: 60, padding: EdgeInsets.all(8),
+                 decoration: new BoxDecoration(
+                     color: Color(0xFFf22e62),
+                     borderRadius: new BorderRadius.all(Radius.circular(20.0),)
+                 ),
                 child: Image.asset("assests/locate.png"),
-              ),
+              ),Padding(
+              padding: EdgeInsets.only(left: 8),
+            ),
               Expanded(
                   child: Container(
                     height: 60,
+                    decoration: new BoxDecoration(
+                        color: Color(0xFF2E86C1),
+                        borderRadius: new BorderRadius.all(Radius.circular(15.0),)
+                    ),
                     child: FlatButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context) => LocateAtm()));},
                       textColor: Colors.white,highlightColor: Colors.black38,
-                      color: Color(0xFF2471A3),
+
                       child: new Text("Locate ATM",style: TextStyle(fontSize: 20)),
 
                     ),
 
                   )),
-
+            Padding(
+              padding: EdgeInsets.only(left: 8),
+            ),
             ],
           ),
 
@@ -408,25 +465,37 @@ class _dashboard extends State<dashboard>{
 
           Row(
             children: <Widget>[
-
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+              ),
               Container(
-                padding: EdgeInsets.all(4.0),
+                padding: EdgeInsets.all(8.0),
                 height: 60,
-                color: Color(0xFF154360),
+                decoration: new BoxDecoration(
+                    color: Color(0xFFf22e62),
+                    borderRadius: new BorderRadius.all(Radius.circular(20.0),)
+                ),
                 child: Image.asset("assests/deposit.png",color: Colors.white,),
+              ),Padding(
+                padding: EdgeInsets.only(left: 8),
               ),
               Expanded(
                   child: Container(
                     height: 60,
-
+                    decoration: new BoxDecoration(
+                        color: Color(0xFF2E86C1),
+                        borderRadius: new BorderRadius.all(Radius.circular(15.0),)
+                    ),
                     child: FlatButton(onPressed: (){},
-                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF2471A3),
+                      textColor: Colors.white,highlightColor: Colors.black38,
                       child: new Text("Change phone number",style: TextStyle(fontSize: 20)),
 
                     ),
 
                   )),
-
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+              ),
             ],
           ),
 
@@ -436,24 +505,36 @@ class _dashboard extends State<dashboard>{
 
           Row(
             children: <Widget>[
-
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+              ),
               Container(
-                height: 60,
-                color: Color(0xFF154360),
+                height: 60, padding: EdgeInsets.all(8),
+                decoration: new BoxDecoration(
+                    color: Color(0xFFf22e62),
+                    borderRadius: new BorderRadius.all(Radius.circular(20.0),)
+                ),
                 child: Image.asset("assests/change_pass.png",color: Colors.white,),
+              ),Padding(
+                padding: EdgeInsets.only(left: 8),
               ),
               Expanded(
                   child: Container(
                     height: 60,
-
+                    decoration: new BoxDecoration(
+                        color: Color(0xFF2E86C1),
+                        borderRadius: new BorderRadius.all(Radius.circular(15.0),)
+                    ),
                     child: FlatButton(onPressed: (){},
-                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF2471A3),
+                      textColor: Colors.white,highlightColor: Colors.black38,
                       child: new Text("Change password",style: TextStyle(fontSize: 20)),
 
                     ),
 
                   )),
-
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+              ),
             ],
           ),
 

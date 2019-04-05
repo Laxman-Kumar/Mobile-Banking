@@ -447,7 +447,7 @@ class _TransferMoney extends State<TransferMoney> {
               children: <Widget>[
 
                 Center(
-                  child: Text("You don't have sufficient fund to withdraw. Kindly enter the amount smaller then the available balance in account.",style: TextStyle(fontSize: 16),),
+                  child: Text("You don't have sufficient to transfer kindly try again with amount smaller then available balance",style: TextStyle(fontSize: 16),),
                 ),
                 Center(
                   child: RaisedButton(

@@ -15,7 +15,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="mbank2"
+        android:label="mBank"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyByYb1W-lmFgudjwGQg-de480PnKRLFXPk"/>
