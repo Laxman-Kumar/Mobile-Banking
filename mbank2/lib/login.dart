@@ -52,7 +52,6 @@ bool autovalid=false;
       var nav=context;
 
       if(form.validate()) {
-        showMessage('We are logging you in.... Please wait',Colors.green);
         form.save();
         Log obj=new Log(username, password, nav);
         obj.log();

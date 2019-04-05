@@ -74,6 +74,12 @@ class _SearchUser extends State<SearchUser>{
    });
  }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    accountNo.clear();
+    super.dispose();
+  }
 
  Future<void> collectinDataForTransaction() async{
 
@@ -101,6 +107,7 @@ class _SearchUser extends State<SearchUser>{
       lengthData = keyList.length;
     });
 
+    CustomerClass2 obj;
     for (int i=0;i<keyList.length;i++) {
       List<String> dd = [];
 
@@ -110,13 +117,9 @@ class _SearchUser extends State<SearchUser>{
           .then((DataSnapshot snapshot) {
         var keys = snapshot.value.keys;
         var data = snapshot.value;
-        for ( var key1 in keys ) {
-          var t1 = data[key1];
-          print(t1.toString());
-          dd.add(t1.toString());
-        }
+        obj = CustomerClass2(time: DateTime.parse(data["Time"]), type: data["Type"], currentBal: data["Current_Balance"].toString(), amount: data["Transaction_amount"], uid: data["Uid"]);
+
       });
-      CustomerClass2 obj = CustomerClass2(time: DateTime.parse(dd[4]), type: dd[1], currentBal: dd[3], amount: dd[2], uid: dd[0]);
 
       setState(() {
         data.add(obj);
@@ -138,8 +141,8 @@ class _SearchUser extends State<SearchUser>{
         key: _scaffoldKey,
       appBar:  AppBar(
         title: Text("Search user",style: TextStyle(color: Colors.white),),
-        backgroundColor: Color(0xFFE64751),
-        elevation: 0.0,
+        backgroundColor:  Color(0xFFbf2b46),
+        elevation: 3.0,
         actions: <Widget>[
         ],
       ),
@@ -148,17 +151,17 @@ class _SearchUser extends State<SearchUser>{
       body: Column(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
- 
+
         Padding(
-          padding: EdgeInsets.only(top: 15),
+          padding: EdgeInsets.only(top: 10),
         ),
         Row(
           children: <Widget>[
             Expanded(
               flex: 5,
               child:Container(
-                padding: EdgeInsets.all(15),
-                height: 80,
+                padding: EdgeInsets.all(10),
+                height: 60,
                 child:Form(
                     key: _formKey,
                     autovalidate: _autovalidate,
@@ -187,11 +190,11 @@ class _SearchUser extends State<SearchUser>{
                 )
             )),
            Expanded(
-               flex: 1,
+               flex: 2,
                child:
             Container(
-              height: 80,
-              padding: EdgeInsets.only(right: 15,top: 15,bottom: 10),
+              height: 62,
+              padding: EdgeInsets.only(right: 10,top:10,),
               child: RaisedButton(onPressed: search,
                   elevation: 0.0,
                   shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
@@ -220,7 +223,7 @@ class _SearchUser extends State<SearchUser>{
         ),
 
         Padding(
-          padding: EdgeInsets.only(top: 18),
+          padding: EdgeInsets.only(top: 10),
         ),
 
         keyUpdate==null?Expanded(child: Center(child: CircularProgressIndicator(backgroundColor: Colors.white,),)):
@@ -233,51 +236,35 @@ class _SearchUser extends State<SearchUser>{
                     Padding(
                       padding: EdgeInsets.only(left: 15),
                     ),
-                    Container(
-                      child: Text("Account holder's name : ",style: TextStyle(color: Colors.white,fontSize: 24),),
+                    Expanded(
+                      flex: 1,
+                      child: Text("Account holder's name : ",style: TextStyle(color: Colors.white70,fontSize: 18),),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 18),
-                    ),
-                    Container(
-                      child: Text(name,style: TextStyle(color: Colors.white,fontSize: 24),),
+
+                    Expanded(
+                      flex: 1,
+                      child: Text(name,style: TextStyle(color: Colors.white,fontSize: 18),),
                     )
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.only(left: 10),
                 ),
                 Row(
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 15),
                     ),
-                    Container(
-                      child: Text("Branch : ",style: TextStyle(color: Colors.white,fontSize: 24),),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 18),
-                    ),
-                    Container(
-                      child: Text(branch,style: TextStyle(color: Colors.white,fontSize: 24),),
+                    Expanded(
+                      flex: 1,
+                      child: Text("Branch : ",style: TextStyle(color: Colors.white70,fontSize: 18),),
                     ),
 
                     Expanded(
-                      child: Container(),
+                      flex: 1,
+                      child: Text(branch,style: TextStyle(color: Colors.white,fontSize: 18),),
                     ),
 
-                    Container(
-                      child: Text("Account type : ",style: TextStyle(color: Colors.white,fontSize: 24),),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 18),
-                    ),
-                    Container(
-                      child: Text(type,style: TextStyle(color: Colors.white,fontSize: 24),),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 25),
-                    ),
                   ],
                 ),
                 Padding(
@@ -288,31 +275,18 @@ class _SearchUser extends State<SearchUser>{
                     Padding(
                       padding: EdgeInsets.only(left: 15),
                     ),
-                    Container(
-                      child: Text("Phone no : ",style: TextStyle(color: Colors.white,fontSize: 24),),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 18),
-                    ),
-                    Container(
-                      child: Text(phone,style: TextStyle(color: Colors.white,fontSize: 24),),
-                    ),
+
+
                     Expanded(
-                      child: Container(),
+                      flex: 1,
+                      child: Text("Account type : ",style: TextStyle(color: Colors.white70,fontSize: 18),),
                     ),
 
-                    Container(
-                      child: Text("NetBanking enabled : ",style: TextStyle(color: Colors.white,fontSize: 24),),
+                    Expanded(
+                      flex: 1,
+                      child: Text(type,style: TextStyle(color: Colors.white,fontSize: 18),),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 18),
-                    ),
-                    Container(
-                      child: Text(netBanking.toString(),style: TextStyle(color: Colors.white,fontSize: 24),),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 25),
-                    ),
+
                   ],
                 ),
                 Padding(
@@ -323,14 +297,54 @@ class _SearchUser extends State<SearchUser>{
                     Padding(
                       padding: EdgeInsets.only(left: 15),
                     ),
-                    Container(
-                      child: Text("Current balance : ",style: TextStyle(color: Colors.white,fontSize: 24),),
+                    Expanded(
+                      flex: 1,
+                      child: Text("Phone no : ",style: TextStyle(color: Colors.white70,fontSize: 18),),
                     ),
+
+                    Expanded(
+                      flex: 1,
+                      child: Text(phone,style: TextStyle(color: Colors.white,fontSize: 18),),
+                    ),
+
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20),
+                ),
+                Row(
+                  children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 18),
+                      padding: EdgeInsets.only(left: 15),
                     ),
-                    Container(
-                      child: Text(balance,style: TextStyle(color: Colors.white,fontSize: 24),),
+                    Expanded(
+                      flex: 1,
+                      child: Text("NetBanking enabled : ",style: TextStyle(color: Colors.white70,fontSize: 18),),
+                    ),
+
+                    Expanded(
+                      flex: 1,
+                      child: Text(netBanking.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                    ),
+
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20),
+                ),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text("Current balance : ",style: TextStyle(color: Colors.white70,fontSize: 18),),
+                    ),
+
+                    Expanded(
+                      flex: 1,
+                      child: Text(balance,style: TextStyle(color: Colors.white,fontSize: 18),),
                     )
                   ],
                 ),
@@ -351,15 +365,13 @@ class _SearchUser extends State<SearchUser>{
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(top: 18),
+                  padding: EdgeInsets.only(top: 10),
                 ),
 
 
                  Column(
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 18),
-                    ),
+
                     Center(
                       child:Text("Transaction Details",style: TextStyle(fontSize: 18,color: Colors.white70),) ,
                     ),
@@ -380,7 +392,7 @@ class _SearchUser extends State<SearchUser>{
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 18),
+                      padding: EdgeInsets.only(top: 5),
                     ),
                     Row(
                       children: <Widget>[
@@ -422,15 +434,18 @@ class _SearchUser extends State<SearchUser>{
                     ),
 
                     Padding(
-                      padding: EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: 10),
                     ),
 
-                    Container(
 
+
+                    Container(
+                      height: 270,
                       child: new ListView.builder(
+                        scrollDirection: Axis.vertical,
                         itemCount: data.length,
-                        physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
                         itemBuilder: ( context, int index) {
                           return Column(
                             children: <Widget>[
@@ -500,6 +515,7 @@ class _SearchUser extends State<SearchUser>{
 
               ],)
                 :balance==null?
+
             Expanded(child: Center(child:  Text("Data not found",style: TextStyle(color: Colors.white,fontSize: 36)),),)
                 :Center(child: Text("",style: TextStyle(color: Colors.white,fontSize: 36),),)
 

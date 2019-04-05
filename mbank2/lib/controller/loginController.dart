@@ -50,6 +50,8 @@ class Log{
   void log() async {
     try{
 
+      showDialog(context: nav, builder: (BuildContext context) => createLoadingDialog());
+
       FirebaseUser user=await FirebaseAuth.instance.currentUser();
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);
       await user.reload();
@@ -64,7 +66,7 @@ class Log{
       {
        // FirebaseUser user=await FirebaseAuth.instance.currentUser();
       //  await FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);
-
+        Navigator.pop(nav);
         Navigator.pushReplacement(nav, MaterialPageRoute(builder: (context) => dashboard(user: user)));//(user: user)));
 
       }
@@ -98,6 +100,32 @@ class Log{
   }
 
   String dialogText;
+
+
+  Dialog createLoadingDialog() {
+    return  Dialog(
+
+        backgroundColor: Colors.white30,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+        ),
+        //this right here
+        child: Container(
+            height: 100.0,
+            width: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+            ))
+
+    );
+  }
+
+
 
   Dialog createDialog() {
     return  Dialog(

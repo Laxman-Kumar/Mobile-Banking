@@ -70,11 +70,11 @@ class _ViewCustomers extends State<ViewCustomers>{
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        backgroundColor: Color(0xFF424242),
+        backgroundColor:Colors.black,
 
         appBar: AppBar(
-          title: Text("View Transaction",style: TextStyle(color: Colors.white),),
-          backgroundColor: Color(0xFFE64751),
+          title: Text("View Customers",style: TextStyle(color: Colors.white),),
+          backgroundColor: Color(0xFFbf2b46),
           elevation: 0.0,
           actions: <Widget>[
           ],
@@ -91,7 +91,7 @@ class _ViewCustomers extends State<ViewCustomers>{
 
             Row(
               children: <Widget>[
-                Padding(padding: EdgeInsets.only(left: 15),),
+                Padding(padding: EdgeInsets.only(left: 10),),
                 Expanded(
                   flex:1,
                   child: Text("SN",style: TextStyle(color: Colors.white),),
@@ -102,7 +102,7 @@ class _ViewCustomers extends State<ViewCustomers>{
                 ),
 
                 Expanded( flex:2,
-                  child: Text("Account_no",style: TextStyle(color: Colors.white),),
+                  child: Text("Account_no",style: TextStyle(color: Colors.white,fontSize: 12),),
                 ),
 
                 Expanded(child: Text("Branch",style: TextStyle(color: Colors.white),),
@@ -118,7 +118,7 @@ class _ViewCustomers extends State<ViewCustomers>{
                 ),
 
                 Expanded( flex:1,
-                  child: Text("Netbanking",style: TextStyle(color: Colors.white),),
+                  child: Text("Netbanking",style: TextStyle(color: Colors.white,fontSize: 12),),
                 ),
 
               ],
@@ -133,7 +133,7 @@ class _ViewCustomers extends State<ViewCustomers>{
                 Expanded(
                   child: Container(
                     height: 2,
-                    color: Colors.redAccent,
+                    color: Color(0xFFbf2b46),
                   ),
                 )
               ],
@@ -155,51 +155,48 @@ class _ViewCustomers extends State<ViewCustomers>{
                       Row(
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(left: 15),
+                            padding: EdgeInsets.only(left: 10),
                           ),
                           Expanded(
                             flex:1,
-                            child: Text((index+1).toString(),style: TextStyle(color: Colors.white),),
+                            child: Text((index+1).toString(),style: TextStyle(color: Colors.white,fontSize: 12),),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
                           ),
                           Expanded(
                             flex:2,
-                            child: Text(dataList[index].name,style: TextStyle(color: Colors.white),),
+                            child: Text(dataList[index].name,style: TextStyle(color: Colors.white,fontSize: 12),),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
                           ),
                           Expanded( flex:2,
-                            child: Text(dataList[index].account,style: TextStyle(color: Colors.white),),
+                            child: Text(dataList[index].account,style: TextStyle(color: Colors.white,fontSize: 11),),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
                           ),
-                          Expanded(child: Text(dataList[index].branch,style: TextStyle(color: Colors.white),),
+                          Expanded(child: Text(dataList[index].branch,style: TextStyle(color: Colors.white,fontSize: 12),),
                             flex:2,
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
                           ),
                           Expanded( flex:1,
-                            child: Text(dataList[index].type,style: TextStyle(color: Colors.white),),
+                            child: Text(dataList[index].type,style: TextStyle(color: Colors.white,fontSize: 10),),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
                           ),
                           Expanded( flex:2,
-                            child: Text(dataList[index].balance,style: TextStyle(color: Colors.white),),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left:5),
+                            child: Text(dataList[index].balance,style: TextStyle(color: Colors.white,fontSize: 12),),
                           ),
                           Expanded( flex:1,
                             child: Text(dataList[index].netBank.toString(),style: TextStyle(color: (dataList[index].netBank==true)?Colors.green:Colors.red),),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(right: 5),
+                            padding: EdgeInsets.only(right: 10),
                           ),
 
 
@@ -242,6 +239,7 @@ class _ViewCustomers extends State<ViewCustomers>{
   void dispose() {
     // TODO: implement dispose
   dataList.clear();
+
     super.dispose();
   }
 

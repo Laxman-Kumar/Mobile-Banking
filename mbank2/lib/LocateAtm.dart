@@ -42,7 +42,7 @@ class _LocateAtm extends State<LocateAtm> {
         key: atmScaffoldKey,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Color(0xFFD32F2F),
+          backgroundColor: Color(0xFFbf2b46),
           title: const Text("Nearby Atm"),
           actions: <Widget>[
             isLoading

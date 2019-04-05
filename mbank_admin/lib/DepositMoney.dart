@@ -82,11 +82,11 @@ class _CreateTransaction extends State<CreateTransaction> {
 
     return new Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Color(0xFF424242),
+      backgroundColor: Colors.black,
 
       appBar: AppBar(
         title: Text("Deposit Money",style: TextStyle(color: Colors.white),),
-        backgroundColor: Color(0xFFE64751),
+        backgroundColor: Color(0xFFbf2b46),
         elevation: 0.0,),
 
 
@@ -102,7 +102,7 @@ class _CreateTransaction extends State<CreateTransaction> {
               ,child: new Row(
                 children: <Widget>[
                   Expanded(
-                      child: Text("Deposit your money here",textAlign: TextAlign.center,style:TextStyle(fontSize: 30,color: Colors.white,fontFamily:'mukta'),)
+                      child: Text("",textAlign: TextAlign.center,style:TextStyle(fontSize: 30,color: Colors.white,fontFamily:'mukta'),)
                   )
                 ],),),
 
@@ -121,7 +121,7 @@ class _CreateTransaction extends State<CreateTransaction> {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                    padding: EdgeInsets.only(top: 10),
+                                    padding: EdgeInsets.only(top: 20),
                                     width: 200,
                                     child: TextFormField(style: TextStyle(color: Colors.white),
                                       controller: accountno,
@@ -165,29 +165,7 @@ class _CreateTransaction extends State<CreateTransaction> {
                                       iconSize: 42,
                                     )
                                 ),
-                                /*
-                                Container(
-                                    padding: EdgeInsets.only(top: 20),
-                                    width: 200,
-                                    child: TextFormField(style: TextStyle(color: Colors.white),
-                                      controller: deposited,
-                                      //cursorColor: Color(0xFFA86E52),
-                                      decoration: new InputDecoration(
-                                          focusedBorder: new OutlineInputBorder(
-                                            borderSide: new BorderSide(color: Color(0xFFA86E52)),
-                                            borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
-                                          ),
-                                          border: new OutlineInputBorder(
-                                            borderSide: new BorderSide(color: Color.fromRGBO(246, 242, 199, 1.0)),
-                                            borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
-                                          ),
-                                          filled: true,
-                                          hintStyle: new TextStyle(color: Colors.white),
-                                          hintText: "Deposit by",
-                                          fillColor: Color(0xFF757575)),
-                                    )
-                                ),
-                                */
+
                                 Container(
                                     padding: EdgeInsets.only(top: 20),
                                     width: 200,
@@ -218,7 +196,7 @@ class _CreateTransaction extends State<CreateTransaction> {
                                   margin: EdgeInsets.only(bottom: 20),
                                   child: RaisedButton(onPressed: createTrans,
                                       elevation: 0.0,
-                                      color: Colors.redAccent,
+                                      color:Color(0xFFbf2b46),
                                       textColor: Colors.white,
 
                                       child: new Text("Deposit",style: TextStyle(fontSize: 14)),
@@ -250,12 +228,34 @@ class _CreateTransaction extends State<CreateTransaction> {
   }
 
 
+
+  Dialog createLoadinDialog() {
+    return  Dialog(
+        backgroundColor: Colors.white30,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+        ),
+        //this right here
+        child: Container(
+            height: 100.0,
+            width: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+            ))
+
+    );
+  }
   void createTrans() async{
     var uuid = new Uuid();
     final key = 'private!!!!!!!!!';
     final iv = '8bytesiv';
     int newBalance;
-
+    showDialog(context: context, builder: (BuildContext context) => createLoadinDialog());
     final encrypter =new Encrypter(new Salsa20(key, iv));
 
     await checkingForInfo();
@@ -263,7 +263,6 @@ class _CreateTransaction extends State<CreateTransaction> {
 
      if(keyUpdate!=null) {
 
-       showMessage("Transaction is in process........", Colors.green);
        newBalance = int.parse(currentBalance) + int.parse(balance.text);
        currentBalance = newBalance.toString();
 
@@ -286,11 +285,10 @@ class _CreateTransaction extends State<CreateTransaction> {
            {"Balance": encrypter.encrypt(newBalance.toString())});
 
        Future.delayed(Duration(seconds: 2), );
-       Navigator.pushReplacement(
-         context,
-         MaterialPageRoute(builder: (context) => dashboard()),
-       );
+       Navigator.pop(context);
+       showDialog(context: context, builder: (BuildContext context) => createDialog(accountno.text));
      }else{
+       Navigator.pop(context);
 
        showMessage("The account no entered does not exist. Please check account no or branch.", Colors.red);
      }
@@ -298,6 +296,74 @@ class _CreateTransaction extends State<CreateTransaction> {
 
   }
 
+  Dialog createDialog(String account) {
+    return  Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0),
+      ),
+      //this right here
+      child: Container(
+        height: 300.0,
+        width: 400.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+
+            Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 25, right: 25, top: 15,),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Information",style: TextStyle(fontSize: 28,)),
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            child:Container(
+                              height:1,
+                              margin: EdgeInsets.only(left: 15,right:15),
+                              color: Colors.black,
+                            ))
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+
+
+                    Text("₹ "+balance.text+" has been successfully added to the account no "+account,style: TextStyle(fontSize: 18),),
+                  ],
+                )
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Container(
+                  width: 150,
+                  height: 70,
+                  padding: EdgeInsets.only(top: 20),
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: RaisedButton(onPressed: onYesPressed,
+                    elevation: 0.0,
+                    textColor: Colors.white,
+                    color:Color(0xFFbf2b46), shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
+                    child: new Text("Dismiss", style: TextStyle(fontSize: 18)),
+                  ),),
+
+
+              ],)
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  void onYesPressed(){Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) =>dashboard()),
+  );}
 
   @override
   void dispose() {

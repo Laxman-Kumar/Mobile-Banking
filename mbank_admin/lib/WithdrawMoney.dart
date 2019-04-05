@@ -93,7 +93,7 @@ class _WithdrawMoney extends State<WithdrawMoney> {
       ),
       //this right here
       child: Container(
-        height: 280.0,
+        height: 180.0,
         width: 350.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -110,24 +110,6 @@ class _WithdrawMoney extends State<WithdrawMoney> {
                     Center(child: CircularProgressIndicator(),),
 
                     Padding(padding: EdgeInsets.only(bottom: 20),),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child:Container(
-                              height:1,
-                              margin: EdgeInsets.only(left: 15,right:15),
-                              color: Colors.black,
-                            ))
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 20),),
-              RaisedButton(onPressed: onDismiss,
-                  elevation: 0.0,
-                  color: Colors.redAccent,
-                  textColor: Colors.white,
-                  child: new Text("Dismiss",style: TextStyle(fontSize: 12)),
-                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
-              )
                   ],
                 )
             ),
@@ -136,10 +118,32 @@ class _WithdrawMoney extends State<WithdrawMoney> {
       ),
     );
   }
- void onDismiss(){
+
+  void onDismiss(){
    Navigator.pop(context);
  }
 
+  Dialog createLoadinDialog() {
+    return  Dialog(
+        backgroundColor: Colors.white30,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+        ),
+        //this right here
+        child: Container(
+            height: 100.0,
+            width: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+            ))
+
+    );
+  }
 
   String verificationId;
   bool otpVerification =false;
@@ -206,13 +210,13 @@ class _WithdrawMoney extends State<WithdrawMoney> {
       Future.delayed(Duration(seconds: 2),);
 
       if(otpVerification){
-        setState(() {dialogText = "Verfication complete. Now you can withdraw money";
-        });
+
         showMessage("Opt verfication complete", Colors.green);
           return true;
       }
       else{
-        setState(() {dialogText = "Automatic verfication failed. Please enter otp.";
+        showMessage("Opt verfication failes", Colors.red);
+        setState(() {
         buttonText = "Verify";
         otpfieldEnbled=true;
         });
@@ -249,11 +253,11 @@ class _WithdrawMoney extends State<WithdrawMoney> {
 
     return new Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Color(0xFF424242),
+        backgroundColor:Colors.black,
 
         appBar: AppBar(
           title: Text("Withdraw Money",style: TextStyle(color: Colors.white),),
-          backgroundColor: Color(0xFFE64751),
+          backgroundColor:  Color(0xFFbf2b46),
           elevation: 0.0,),
 
 
@@ -269,7 +273,7 @@ class _WithdrawMoney extends State<WithdrawMoney> {
                 ,child: new Row(
                 children: <Widget>[
                   Expanded(
-                      child: Text("Withdraw money from here",textAlign: TextAlign.center,style:TextStyle(fontSize: 30,color: Colors.white,fontFamily:'mukta'),)
+                      child: Text("",textAlign: TextAlign.center,style:TextStyle(fontSize: 30,color: Colors.white,fontFamily:'mukta'),)
                   )
                 ],),),
 
@@ -277,7 +281,7 @@ class _WithdrawMoney extends State<WithdrawMoney> {
 
                   child:  new Container(
                       margin: EdgeInsets.only(top: 20),
-                      width: 350,
+                      width: 300,
                       color: Colors.transparent,
                       child: new Container(
                           decoration:  new BoxDecoration(
@@ -288,8 +292,8 @@ class _WithdrawMoney extends State<WithdrawMoney> {
                               child: Column(
                                 children: <Widget>[
                                   Container(
-                                      padding: EdgeInsets.only(top: 10),
-                                      width: 300,
+                                      padding: EdgeInsets.only(top: 20),
+                                      width: 250,
                                       child: TextFormField(
                                         style: TextStyle(color: Colors.white),
                                         controller: accountno,
@@ -316,7 +320,7 @@ class _WithdrawMoney extends State<WithdrawMoney> {
                                   Container(
                                       margin: EdgeInsets.only(top: 20),
                                       padding: EdgeInsets.only(left: 10),
-                                      width: 300,
+                                      width: 250,
                                       decoration:  new BoxDecoration(
                                           color: Color(0xFF757575),
                                           border: Border.all(color:Color.fromRGBO(246,242,199, 1.0),),
@@ -336,7 +340,7 @@ class _WithdrawMoney extends State<WithdrawMoney> {
 
                                   Container(
                                       padding: EdgeInsets.only(top: 20),
-                                      width: 300,
+                                      width: 250,
                                       child: TextFormField(
                                         controller:balance,style: TextStyle(color: Colors.white),
                                         keyboardType: TextInputType.number,
@@ -362,7 +366,7 @@ class _WithdrawMoney extends State<WithdrawMoney> {
                                     children: <Widget>[
                                       Container(
                                           padding: EdgeInsets.only(top: 20),
-                                          width: 180,
+                                          width: 150,
                                           child: otpfieldEnbled?TextFormField(
                                             controller:otpController,style: TextStyle(color: Colors.white),
                                             keyboardType: TextInputType.number,
@@ -411,7 +415,7 @@ class _WithdrawMoney extends State<WithdrawMoney> {
                                       ),
 
                                       Container(
-                                        width: 100,
+                                        width: 90,
                                           height: 70,
                                           margin: EdgeInsets.only(left: 10),
                                           padding: EdgeInsets.only(top: 20,),
@@ -471,7 +475,40 @@ class _WithdrawMoney extends State<WithdrawMoney> {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(backgroundColor: color, content: new Text(message)));
   }
 
+  Dialog createDialogError() {
+    return  Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+        ),
+        //this right here
+        child: Container(
+            margin: EdgeInsets.all(16.0),
+            height: 150.0,
+            width: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
 
+                Center(
+                  child: Text("You don't have sufficient to withdraw. kindly try again with amount smaller then available balance",style: TextStyle(fontSize: 16),),
+                ),
+                Center(
+                  child: RaisedButton(
+                      child: Text("Dismiss"),
+                      color: Colors.redAccent,
+                      textColor: Colors.white,
+                      onPressed: (){
+                        Navigator.pop(context); Navigator.pop(context);
+                      }
+
+                  ),
+                )
+
+              ],
+            ))
+
+    );
+  }
   void createTrans() async{
     var uuid = new Uuid();
     final key = 'private!!!!!!!!!';
@@ -479,17 +516,17 @@ class _WithdrawMoney extends State<WithdrawMoney> {
     int newBalance;
 
     final encrypter =new Encrypter(new Salsa20(key, iv));
-
+    showDialog(context: context, builder: (BuildContext context) => createLoadinDialog());
     await checkingForInfo();
 
     Future.delayed(Duration(seconds: 5), );
 
     if(keyUpdate!=null) {
-      showMessage("Transaction is in process........", Colors.green);
 
       if (int.parse(currentBalance) < int.parse(balance.text)) {
-        dialogText = "You don't have sufficient fund to withdraw. Kindly enter the amount smaller then the available balance in account.";
-        showDialog(context: context, builder: (BuildContext context) => createDialog());
+        Navigator.pop(context);
+        showDialog(context: context, builder: (BuildContext context) => createLoadinDialog());
+        
         setState(() {
           otpVerification=false;
           buttonText="Send otp";
@@ -524,11 +561,77 @@ class _WithdrawMoney extends State<WithdrawMoney> {
 
         Future.delayed(Duration(seconds: 2),);
         Navigator.pop(context);
-
+        showDialog(context: context, builder: (BuildContext context) => createSuccessDialog(accountno.text));
       }
   }
   }
 
+
+  Dialog createSuccessDialog(String account) {
+    return  Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0),
+      ),
+      //this right here
+      child: Container(
+        height: 300.0,
+        width: 400.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+
+            Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 25, right: 25, top: 15,),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Information",style: TextStyle(fontSize: 28,)),
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            child:Container(
+                              height:1,
+                              margin: EdgeInsets.only(left: 15,right:15),
+                              color: Colors.black,
+                            ))
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 20),),
+
+
+                    Text("₹ "+balance.text+" has been successfully added to the account no "+account,style: TextStyle(fontSize: 18),),
+                  ],
+                )
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Container(
+                  width: 150,
+                  height: 70,
+                  padding: EdgeInsets.only(top: 20),
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: RaisedButton(onPressed:(){Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) =>dashboard()),
+                  );},
+                    elevation: 0.0,
+                    textColor: Colors.white,
+                    color:Color(0xFFbf2b46), shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
+                    child: new Text("Dismiss", style: TextStyle(fontSize: 18)),
+                  ),),
+
+
+              ],)
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   void dispose() {

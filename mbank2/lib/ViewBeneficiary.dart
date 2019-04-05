@@ -23,8 +23,7 @@ class _ViewBeneficiary extends State<ViewBeneficiary>{
 
 List<Beneficiary> data=[];
 String keyUpdateLocal;
-
-
+int indexDelete;
   @override
   void initState() {
     super.initState();
@@ -125,8 +124,8 @@ String keyUpdateLocal;
               Expanded(
                   child:Container(
                     height:1,
-                    margin: EdgeInsets.only(left: 15,right:15),
-                    color: Colors.redAccent,
+                    margin: EdgeInsets.only(top: 5,left: 15,right:15),
+                    color: Color(0xFF1ea3d8),
                   ))
             ],
           ),
@@ -139,10 +138,13 @@ String keyUpdateLocal;
 
                   Container(
                     child: TextFormField(
+
                   controller: name,
                   //cursorColor: Color(0xFFA86E52),
+
                   validator: (val) => val.isEmpty ? 'Name is required' : null,
                   decoration: new InputDecoration(
+
                       focusedBorder: new OutlineInputBorder(
                         borderSide: new BorderSide(color: Colors.black),
                         borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
@@ -166,6 +168,7 @@ String keyUpdateLocal;
                         //cursorColor: Color(0xFFA86E52),
                         validator: (val) => val.isEmpty ? 'Account is required' : null,
                         decoration: new InputDecoration(
+
                             focusedBorder: new OutlineInputBorder(
                               borderSide: new BorderSide(color: Colors.black),
                               borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
@@ -189,6 +192,7 @@ String keyUpdateLocal;
                         //cursorColor: Color(0xFFA86E52),
                         validator: (val) => val.isEmpty ? 'Limit is required' : null,
                         decoration: new InputDecoration(
+
                             focusedBorder: new OutlineInputBorder(
                               borderSide: new BorderSide(color: Colors.black),
                               borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
@@ -215,7 +219,7 @@ String keyUpdateLocal;
                         height: 45,
                         child: RaisedButton(onPressed: addData,
                             elevation: 0.0,
-                            color: Colors.redAccent,
+                            color: Color(0xFFbf2b46),
                             textColor: Colors.white,
                             child: new Text("Add",style: TextStyle(fontSize: 12)),
                             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
@@ -229,7 +233,7 @@ String keyUpdateLocal;
                         height: 45,
                         child:RaisedButton(onPressed: (){ Navigator.pop(context);},
                             elevation: 0.0,
-                            color: Colors.redAccent,
+                            color:  Color(0xFFbf2b46),
                             textColor: Colors.white,
                             child: new Text("Dismiss",style: TextStyle(fontSize: 12)),
                             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
@@ -259,8 +263,8 @@ String keyUpdateLocal;
 
         appBar: AppBar(
           title: Text("Add/Manage Beneficiary",style: TextStyle(color: Colors.white),),
-          backgroundColor: Color(0xFFE64751),
-          elevation: 0.0,
+          backgroundColor: Color(0xFFbf2b46),
+          elevation: 3.0,
           actions: <Widget>[
           ],
         ),
@@ -268,7 +272,7 @@ String keyUpdateLocal;
         floatingActionButton: FloatingActionButton(
           onPressed: add_beneficiary,
           tooltip: 'Add',
-          backgroundColor: Colors.redAccent,
+          backgroundColor:  Color(0xFFbf2b46),
 
           child: Icon(Icons.add,),
         ),
@@ -289,49 +293,60 @@ String keyUpdateLocal;
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: ( context, int index) {
-                  return Column(
+                  return Card(
+                    color: Colors.white,
+                    elevation: 4.0,
+                    child:Row(
+                      children: <Widget>[
 
-                    children: <Widget>[
+                        Container( alignment: Alignment.centerLeft,
+                          child:   Column(
 
-                      Row(
-                        children: <Widget>[
+                            children: <Widget>[
+                              Padding(padding: EdgeInsets.only(top: 8),),
+                              Row(
+                                children: <Widget>[
 
-                          Padding(padding: EdgeInsets.only(left: 8),),
-                          Text("Name : "+data[index].name,style: TextStyle(fontSize: 16),textAlign: TextAlign.start,),
-                        ],
-                      ),
+                                  Padding(padding: EdgeInsets.only(left: 8),),
+                                  Text("Name : "+data[index].name,style: TextStyle(fontSize: 16),textAlign: TextAlign.start,),
+                                ],
+                              ),
 
-                      Padding(padding: EdgeInsets.only(top: 4),),
-                      Row(
-                        children: <Widget>[Padding(padding: EdgeInsets.only(left: 8),),
-                          Text("Account no : "+data[index].account_no,style: TextStyle(fontSize: 16),),
-                        ],
-                      ),
+                              Padding(padding: EdgeInsets.only(top: 4),),
+                              Row(
+                                children: <Widget>[Padding(padding: EdgeInsets.only(left: 8),),
+                                Text("Account no : "+data[index].account_no,style: TextStyle(fontSize: 16),textAlign: TextAlign.start),
+                                ],
+                              ),
 
-                      Padding(padding: EdgeInsets.only(top: 4),),
-                      Row(
-                        children: <Widget>[Padding(padding: EdgeInsets.only(left: 8),),
-                          Text("Limit : "+data[index].limit,style: TextStyle(fontSize: 16),),
-                        ],
-                      ),
-
-                      Padding(padding: EdgeInsets.only(top: 4),),
-                      Padding(padding: EdgeInsets.only(top: 8),),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                              child:Container(
-                                height:2,
-                                margin: EdgeInsets.only(left: 15,right:15),
-                                color: Colors.red,
-                              ))
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 8),),
-                    ],
-                  );
-
-
+                              Padding(padding: EdgeInsets.only(top: 4),),
+                              Row(
+                                children: <Widget>[Padding(padding: EdgeInsets.only(left: 8),),
+                                Text("Limit : "+data[index].limit,style: TextStyle(fontSize: 16),textAlign: TextAlign.start),
+                                ],
+                              ),
+                              Padding(padding: EdgeInsets.only(bottom: 8),),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            child:Text("")
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(right: 8.0),
+                          alignment: Alignment.centerRight,
+                          child:GestureDetector(
+                            onTap: (){
+                           indexDelete = index;
+                           showDialog(context: context, builder: (BuildContext context) => createDeleteDialog());
+                            },
+                            child:  Image.asset("assests/remove.png",color: Colors.red,width: 30,height: 30,),
+                          )
+                        )
+                         ]
+                    ) );
                 }
                 ,),
             )
@@ -398,6 +413,242 @@ Dialog createDialogError() {
   );
 }
 
+Dialog createDialogSuccess() {
+  return  Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+      ),
+      //this right here
+      child: Container(
+          height: 100.0,
+          width: 100,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+
+              Center(
+                child: Text("Successfully Deleted",style: TextStyle(fontSize: 22),),
+              ),
+              Center(
+                child: RaisedButton(
+                    child: Text("Dismiss"),
+                    color: Colors.redAccent,
+                    textColor: Colors.white,
+                    onPressed: (){Navigator.pop(context);}
+
+                ),
+              )
+
+            ],
+          ))
+
+  );
+}
+
+Dialog createDeleteDialog() {
+  return  Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+      ),
+      //this right here
+      child: Container(
+          height: 380.0,
+          width: 350,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top:8),
+              ),
+              Center(
+                child: Text("Delete Beneficiary",style: TextStyle(fontSize: 22),),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top:8),
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                      child:Container(
+                        height:2,
+                        margin: EdgeInsets.only(left: 15,right:15),
+                        color: Color(0xFF1ea3d8),
+                      ))
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top:8),
+              ),
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(left: 25, right: 25, top: 25,),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+
+                      Container(
+                          child: TextFormField(
+
+                            controller: name,
+                            //cursorColor: Color(0xFFA86E52),
+                          enabled: false,
+                            validator: (val) => val.isEmpty ? 'Name is required' : null,
+                            decoration: new InputDecoration(
+
+                                focusedBorder: new OutlineInputBorder(
+                                  borderSide: new BorderSide(color: Colors.black),
+                                  borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
+                                ),
+                                border: new OutlineInputBorder(
+                                  borderSide: new BorderSide(color: Color.fromRGBO(246,242,199, 1.0)),
+                                  borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
+                                ),
+                                filled: true,
+                                hintStyle: new TextStyle(color: Colors.white),
+                                labelText: data[indexDelete].name,
+                                labelStyle: TextStyle(color: Colors.white),
+                                fillColor: Color(0xFF757575)
+                            ),
+                          )),
+
+                      Padding(padding: EdgeInsets.only(top: 10),),
+                      Container(
+                          child: TextFormField(
+
+                            controller: account, enabled: false,
+                            keyboardType: TextInputType.number,
+                            //cursorColor: Color(0xFFA86E52),
+                            validator: (val) => val.isEmpty ? 'Account is required' : null,
+                            decoration: new InputDecoration(
+                                focusedBorder: new OutlineInputBorder(
+                                  borderSide: new BorderSide(color: Colors.black),
+                                  borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
+                                ),
+                                border: new OutlineInputBorder(
+                                  borderSide: new BorderSide(color: Color.fromRGBO(246,242,199, 1.0)),
+                                  borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
+                                ),
+                                filled: true,
+                                hintStyle: new TextStyle(color: Colors.white),
+                                labelText: data[indexDelete].account_no, labelStyle: TextStyle(color: Colors.white),
+                                fillColor: Color(0xFF757575)
+                            ),
+                          )
+                      ),
+
+                      Padding(padding: EdgeInsets.only(top: 10),),
+                      Container(
+                          child: TextFormField(
+                            controller: limit, enabled: false,
+                            keyboardType: TextInputType.number,
+                            //cursorColor: Color(0xFFA86E52),
+                            validator: (val) => val.isEmpty ? 'Limit is required' : null,
+                            decoration: new InputDecoration(
+
+                                focusedBorder: new OutlineInputBorder(
+                                  borderSide: new BorderSide(color: Colors.black),
+                                  borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
+                                ),
+                                border: new OutlineInputBorder(
+                                  borderSide: new BorderSide(color: Color.fromRGBO(246,242,199, 1.0)),
+                                  borderRadius: const BorderRadius.all(const Radius.circular(15.0),),
+                                ),
+                                filled: true,
+                                hintStyle: new TextStyle(color: Colors.white),
+                                labelText: data[indexDelete].limit, labelStyle: TextStyle(color: Colors.white),
+                                fillColor: Color(0xFF757575)
+                            ),
+                          )),
+
+
+                      Padding(padding: EdgeInsets.only(bottom: 20),),
+
+                      Row(
+                        children: <Widget>[
+
+                          Container(
+                            width: 105,
+                            height: 45,
+                            child: RaisedButton(onPressed:deleteBeneficiary,
+                                elevation: 0.0,
+                                color: Color(0xFFbf2b46),
+                                textColor: Colors.white,
+                                child: new Text("Delete",style: TextStyle(fontSize: 12)),
+                                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
+                            ),
+                          ),
+
+                          Padding(padding: EdgeInsets.only(left: 20),),
+
+                          Container(
+                            width: 105,
+                            height: 45,
+                            child:RaisedButton(onPressed: (){ Navigator.pop(context);},
+                                elevation: 0.0,
+                                color:  Color(0xFFbf2b46),
+                                textColor: Colors.white,
+                                child: new Text("Dismiss",style: TextStyle(fontSize: 12)),
+                                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
+                            ),
+                          )
+
+
+                        ],
+                      )
+
+
+                    ],
+                  )
+              ),
+
+            ],
+          ))
+
+  );
+}
+
+void deleteBeneficiary() async{
+  showDialog(context: context, builder: (BuildContext context) => createLoadinDialog());
+
+  final key = 'private!!!!!!!!!';
+  final iv = '8bytesiv';
+  final encrypter =new Encrypter(new Salsa20(key, iv));
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String accountNo = prefs.getString('account');
+
+  DatabaseReference db = FirebaseDatabase.instance.reference();
+
+  String deletingKey;
+  List<String> keyList =[];
+  await db.child('Beneficiary_details').child(accountNo).once().then((DataSnapshot snapshot){
+    var keys = snapshot.value.keys;
+    var data = snapshot.value;
+    print(keys);
+    for (var key in keys) {
+      keyList.add(key);
+    }
+  });
+
+  for (int i=0;i<keyList.length;i++) {
+    await db.child('Beneficiary_details').child(accountNo).child(keyList[i]).once().then((DataSnapshot snapshot) {
+      var data2 = snapshot.value;
+      var accountDD = encrypter.decrypt(data2["Account_no"]);
+      if (accountDD == data[indexDelete].account_no){
+        deletingKey = keyList[i];
+      }
+    });
+  }
+  await db.child('Beneficiary_details').child(accountNo).child(deletingKey).remove();
+  data.clear();
+  await collectinDataForTransaction();
+  Navigator.pop(context);
+  Navigator.pop(context);
+
+  showDialog(context: context, builder: (BuildContext context) => createDialogSuccess());
+
+}
+
 Future<void> collectinDataForTransaction() async{
 
   data.clear();
@@ -411,7 +662,7 @@ Future<void> collectinDataForTransaction() async{
   String accountNo = prefs.getString('account');
 
   DatabaseReference db = FirebaseDatabase.instance.reference();
-  print(accountDetail);
+
   List<String> keyList =[];
   await db.child('Beneficiary_details').child(accountNo).once().then((DataSnapshot snapshot){
     var keys = snapshot.value.keys;
@@ -433,7 +684,6 @@ Future<void> collectinDataForTransaction() async{
       var data = snapshot.value;
       for ( var key1 in keys ) {
         var t1 = data[key1];
-        print(encrypter.decrypt(t1.toString()));
         dd.add(encrypter.decrypt(t1.toString()));
       }
     });

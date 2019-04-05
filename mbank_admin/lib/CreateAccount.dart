@@ -92,12 +92,12 @@ class _AddingData extends State<AddingData> {
         key: _scaffoldKey,
         appBar:AppBar(
           title: Text("Create mBank account",style: TextStyle(color: Colors.white),),
-          backgroundColor: Color(0xFFE64751),
+          backgroundColor: Color(0xFFbf2b46),
           elevation: 0.0,
           actions: <Widget>[
           ],
         ),
-        backgroundColor: Color(0xFF424242),
+        backgroundColor: Colors.black,
         body: SingleChildScrollView(
 
               child: Column(
@@ -111,7 +111,7 @@ class _AddingData extends State<AddingData> {
                       child: new Row(
                         children: <Widget>[
                           Expanded(
-                              child: Text("mBank Account Creation Portal",textAlign: TextAlign.center,style:TextStyle(fontSize: 30,color: Colors.redAccent,fontFamily:'mukta'),)
+                              child: Text("",textAlign: TextAlign.center,style:TextStyle(fontSize: 22,color: Colors.redAccent,fontFamily:'mukta'),)
                           )
                         ],),),
                     Container(
@@ -268,7 +268,7 @@ class _AddingData extends State<AddingData> {
                                           margin: EdgeInsets.only(bottom: 20),
                                           child: RaisedButton(onPressed: registerPage,
                                               elevation: 0.0,
-                                              color:Colors.redAccent,
+                                              color:Color(0xFFbf2b46),
                                               textColor: Colors.white,
 
                                               child: new Text("ADD",style: TextStyle(fontSize: 14)),
@@ -303,6 +303,27 @@ class _AddingData extends State<AddingData> {
 
     });
   }
+  Dialog createLoadinDialog() {
+    return  Dialog(
+        backgroundColor: Colors.white30,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+        ),
+        //this right here
+        child: Container(
+            height: 100.0,
+            width: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+            ))
+
+    );
+  }
 
   void registerPage() async {
     var uuid = new Uuid();
@@ -313,6 +334,8 @@ class _AddingData extends State<AddingData> {
 
     final encrypter =new Encrypter(new Salsa20(key, iv));
 
+
+    showDialog(context: context, builder: (BuildContext context) => createLoadinDialog());
 
     var rng = new Random();
     String account ="";
@@ -328,7 +351,6 @@ class _AddingData extends State<AddingData> {
     final encryptedbranch = encrypter.encrypt(lan);
 
     if(form.validate()){
-      showMessage('Adding Data.... Please Wait',Colors.green);
       DatabaseReference db = FirebaseDatabase.instance.reference();
       await db.child("account_details").child(uuid.v1()).set({
         'Name':encryptedname,
@@ -339,9 +361,8 @@ class _AddingData extends State<AddingData> {
         'Type':encryptedType,
         'netBanking':false
       });
-
-      showDialog(
-          context: context, builder: (BuildContext context) => createDialog(account));
+      Navigator.pop(context);
+      showDialog(context: context, builder: (BuildContext context) => createDialog(account));
 
 
     }else{
@@ -357,11 +378,11 @@ class _AddingData extends State<AddingData> {
   Dialog createDialog(String account) {
     return  Dialog(
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0),
       ),
       //this right here
       child: Container(
-        height: 350.0,
+        height: 300.0,
         width: 400.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -369,7 +390,7 @@ class _AddingData extends State<AddingData> {
 
             Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.only(left: 25, right: 25, top: 25,),
+                padding: EdgeInsets.only(left: 25, right: 25, top: 15,),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -388,7 +409,7 @@ class _AddingData extends State<AddingData> {
                     Padding(padding: EdgeInsets.only(bottom: 20),),
 
 
-                    Text("Mr/Miss "+name.text+" your account is created at "+lan+" branch. Your account number is "+account,style: TextStyle(fontSize: 21),),
+                    Text("Mr/Miss "+name.text+" your account is created at "+lan+" branch. Your account number is "+account,style: TextStyle(fontSize: 18),),
                   ],
                 )
             ),
@@ -404,7 +425,8 @@ class _AddingData extends State<AddingData> {
                   margin: EdgeInsets.only(bottom: 20),
                   child: RaisedButton(onPressed: onYesPressed,
                     elevation: 0.0,
-                    textColor: Color(0xFFA86E52),
+                    textColor: Colors.white,
+                    color:Color(0xFFbf2b46), shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
                     child: new Text("Dismiss", style: TextStyle(fontSize: 18)),
                   ),),
 
@@ -417,7 +439,7 @@ class _AddingData extends State<AddingData> {
   }
 
 
-  void onYesPressed(){Navigator.push(
+  void onYesPressed(){Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (context) =>dashboard()),
   );}

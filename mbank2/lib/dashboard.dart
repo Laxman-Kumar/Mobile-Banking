@@ -15,7 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:mbank2/LocateAtm.dart';
 import 'package:mbank2/ViewBeneficiary.dart';
 import 'package:mbank2/TransferFunds.dart';
-
+import 'package:mbank2/login.dart';
 
 class dashboard extends StatefulWidget{
   FirebaseUser user;
@@ -75,7 +75,6 @@ class _dashboard extends State<dashboard>{
     // TODO: implement initState
     setState(() {
       checkingForInfo();
-      collectinDataForTransaction();
     });
 
 
@@ -88,7 +87,6 @@ class _dashboard extends State<dashboard>{
   void didUpdateWidget(dashboard oldWidget) {
     // TODO: implement didUpdateWidget
     checkingForInfo();
-    collectinDataForTransaction();
     super.didUpdateWidget(oldWidget);
   }
 
@@ -123,6 +121,84 @@ class _dashboard extends State<dashboard>{
     });
   }
 
+  Dialog createlogoutDialog() {
+    return  Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+        ),
+        //this right here
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+            height: 150.0,
+            width: 250,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top:8),
+                ),
+                Center(
+                  child: Text("Are you sure you want to log out !!!",style: TextStyle(fontSize: 22),),
+                ),
+             
+                Padding(
+                  padding: EdgeInsets.only(top:8),
+                ),
+                Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(left: 15, right: 15,),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+
+                        Padding(padding: EdgeInsets.only(bottom: 10),),
+
+                        Row(
+                          children: <Widget>[
+
+                            Container(
+                              width: 105,
+                              height: 45,
+                              child: RaisedButton(onPressed:(){
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+                              },
+                                  elevation: 0.0,
+                                  color: Color(0xFFbf2b46),
+                                  textColor: Colors.white,
+                                  child: new Text("Logout",style: TextStyle(fontSize: 12)),
+                                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
+                              ),
+                            ),
+
+                            Padding(padding: EdgeInsets.only(left: 10),),
+
+                            Container(
+                              width: 105,
+                              height: 45,
+                              child:RaisedButton(onPressed: (){ Navigator.pop(context);},
+                                  elevation: 0.0,
+                                  color:  Color(0xFFbf2b46),
+                                  textColor: Colors.white,
+                                  child: new Text("Cancel",style: TextStyle(fontSize: 12)),
+                                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
+                              ),
+                            )
+
+
+                          ],
+                        )
+
+
+                      ],
+                    )
+                ),
+
+              ],
+            ))
+
+    );
+  }
+
 
 
   @override
@@ -133,14 +209,14 @@ class _dashboard extends State<dashboard>{
 
         appBar:  AppBar(
           title: Text("Dashboard",style: TextStyle(color: Colors.white),),
-          backgroundColor: Color(0xFFD32F2F),
-          elevation: 0.0,
+          backgroundColor: Color(0xFFbf2b46),
+          elevation: 3.0,
           actions: <Widget>[
 
             IconButton(
               icon: ImageIcon(AssetImage('assests/logout.png'),size :21),
               onPressed: () {
-
+                showDialog(context: context, builder: (BuildContext context) => createlogoutDialog());
               },
             ),
 
@@ -218,7 +294,7 @@ class _dashboard extends State<dashboard>{
                     height: 60,
                     child: FlatButton(onPressed: viewTransaction,
                       textColor: Colors.white,
-                      color: Colors.redAccent,
+                      color:  Color(0xFFbf2b46),
                       child: new Text("View Transactions",style: TextStyle(fontSize: 18)),
 
                     ),
@@ -233,7 +309,7 @@ class _dashboard extends State<dashboard>{
                     height: 60,
                     child: FlatButton(onPressed: downTransaction,
                       textColor: Colors.white,
-                      color: Colors.redAccent,
+                      color: Color(0xFFbf2b46),
                       child: new Text("Download Transactions",style: TextStyle(fontSize: 18)),
 
                     ),
@@ -252,7 +328,7 @@ class _dashboard extends State<dashboard>{
               Container(
                 padding: EdgeInsets.all(4.0),
                 height: 60,
-                color: Color(0xFF196F3D),
+                color: Color(0xFF154360),
                 child: Image.asset("assests/add_bene.png",color: Colors.white,),
               ),
               Expanded(
@@ -260,7 +336,7 @@ class _dashboard extends State<dashboard>{
                     height: 60,
 
                     child: FlatButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => ViewBeneficiary()));},
-                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF1E8449),
+                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF2471A3),
                       child: new Text("Add/Manage Beneficiary",style: TextStyle(fontSize: 18)),
 
                     ),
@@ -279,7 +355,7 @@ class _dashboard extends State<dashboard>{
             children: <Widget>[
               Container(
                 height: 60,
-                color:Color(0xFF935116),
+                color:Color(0xFF154360),
                 child: Image.asset("assests/transfer.png",color: Colors.white,),
               ),
               Expanded(
@@ -287,7 +363,7 @@ class _dashboard extends State<dashboard>{
                     height: 60,
                     child: FlatButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context) => TransferMoney()));},
                       textColor: Colors.white,highlightColor: Colors.black38,
-                      color: Color(0xFFEB984E),
+                      color: Color(0xFF2471A3),
                       child: new Text("Transfer money",style: TextStyle(fontSize: 20)),
 
                     ),
@@ -306,7 +382,7 @@ class _dashboard extends State<dashboard>{
             children: <Widget>[
                Container(
                 height: 60,
-                color:Color(0xFF935116),
+                color:Color(0xFF154360),
                 child: Image.asset("assests/locate.png"),
               ),
               Expanded(
@@ -314,7 +390,7 @@ class _dashboard extends State<dashboard>{
                     height: 60,
                     child: FlatButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context) => LocateAtm()));},
                       textColor: Colors.white,highlightColor: Colors.black38,
-                      color: Color(0xFFEB984E),
+                      color: Color(0xFF2471A3),
                       child: new Text("Locate ATM",style: TextStyle(fontSize: 20)),
 
                     ),
@@ -336,7 +412,7 @@ class _dashboard extends State<dashboard>{
               Container(
                 padding: EdgeInsets.all(4.0),
                 height: 60,
-                color: Color(0xFF196F3D),
+                color: Color(0xFF154360),
                 child: Image.asset("assests/deposit.png",color: Colors.white,),
               ),
               Expanded(
@@ -344,7 +420,7 @@ class _dashboard extends State<dashboard>{
                     height: 60,
 
                     child: FlatButton(onPressed: (){},
-                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF1E8449),
+                      textColor: Colors.white,highlightColor: Colors.black38,color: Color(0xFF2471A3),
                       child: new Text("Change phone number",style: TextStyle(fontSize: 20)),
 
                     ),
@@ -421,56 +497,5 @@ class _dashboard extends State<dashboard>{
 
   }
 
- Future<void> collectinDataForTransaction() async{
-
-    data.clear();
-    // List<CustomerClass> dataObj=[];
-    final key = 'private!!!!!!!!!';
-    final iv = '8bytesiv';
-
-    final encrypter =new Encrypter(new Salsa20(key, iv));
-    DatabaseReference db = FirebaseDatabase.instance.reference();
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String accountNo = prefs.getString('account');
-
-    List<String> keyList =[];
-    await db.child('Transaction_Details').child(accountNo).once().then((DataSnapshot snapshot){
-      var keys = snapshot.value.keys;
-      var data = snapshot.value;
-      print(keys);
-      for (var key in keys) {
-        keyList.add(key);
-      }
-    });
-
-    print("length"+keyList.length.toString());
-    setState(() {
-      lengthData = keyList.length;
-    });
-
-    for (int i=0;i<keyList.length;i++) {
-      List<String> dd = [];
-
-      await db.child('Transaction_Details').child(accountNo)
-          .child(keyList[i])
-          .once()
-          .then((DataSnapshot snapshot) {
-        var keys = snapshot.value.keys;
-        var data = snapshot.value;
-        for ( var key1 in keys ) {
-          var t1 = data[key1];
-          //print(t1);
-          dd.add(t1.toString());
-        }
-      });
-      CustomerClass obj = CustomerClass(time: DateTime.parse(dd[3]), type: dd[1], currentBal: dd[4], amount: dd[2], uid: dd[0]);
-
-        data.add(obj);
-
-
-    }
-   // return dataObj;
-  }
 
 }

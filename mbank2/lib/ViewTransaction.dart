@@ -19,17 +19,87 @@ class ViewTransaction extends StatefulWidget{
 
 class _ViewTransaction extends State<ViewTransaction>{
 
-  List<CustomerClass> data2;
+
   @override
   void initState() {
     super.initState();
-    setState(() {
-      data2 = data;
-    });
+    collectinDataForTransaction();
   }
   var formatter = new DateFormat.yMd();
   var formatter2 = new DateFormat("h:mm a");
 
+  Dialog createLoadingDialog() {
+    return  Dialog(
+        backgroundColor: Colors.white30,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+        ),
+        //this right here
+        child: Container(
+            height: 100.0,
+            width: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+
+              ],
+            ))
+
+    );
+  }
+
+  Future<void> collectinDataForTransaction() async{
+   // showDialog(context: context, builder: (BuildContext context) => createLoadingDialog());
+    data.clear();
+    // List<CustomerClass> dataObj=[];
+    final key = 'private!!!!!!!!!';
+    final iv = '8bytesiv';
+
+    final encrypter =new Encrypter(new Salsa20(key, iv));
+    DatabaseReference db = FirebaseDatabase.instance.reference();
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String accountNo = prefs.getString('account');
+
+    List<String> keyList =[];
+    await db.child('Transaction_Details').child(accountNo).once().then((DataSnapshot snapshot){
+      var keys = snapshot.value.keys;
+      var data = snapshot.value;
+      print(keys);
+      for (var key in keys) {
+        keyList.add(key);
+      }
+    });
+
+    setState(() {
+      lengthData = keyList.length;
+    });
+    CustomerClass obj;
+
+
+    for (int i=0;i<keyList.length;i++) {
+      List<String> dd = [];
+
+      await db.child('Transaction_Details').child(accountNo)
+          .child(keyList[i])
+          .once()
+          .then((DataSnapshot snapshot) {
+        var keys = snapshot.value.keys;
+        var data = snapshot.value;
+
+         obj = CustomerClass(time: DateTime.parse(data["Time"]), type: data["Type"], currentBal: data["Current_Balance"].toString(), amount: data["Transaction_amount"], uid: data["Uid"]);
+
+      });
+      setState(() {
+        data.add(obj);
+      });
+    }
+
+    // return dataObj;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +109,8 @@ class _ViewTransaction extends State<ViewTransaction>{
 
       appBar: AppBar(
       title: Text("View Transaction",style: TextStyle(color: Colors.white),),
-      backgroundColor: Color(0xFFE64751),
-      elevation: 0.0,
+      backgroundColor: Color(0xFFbf2b46),
+      elevation: 3.0,
       actions: <Widget>[
       ],
      ),
@@ -88,7 +158,7 @@ class _ViewTransaction extends State<ViewTransaction>{
               Expanded(
                 child: Container(
                   height: 2,
-                  color: Colors.redAccent,
+                  color: Color(0xFF1ea3d8),
                 ),
               )
             ],
@@ -101,7 +171,7 @@ class _ViewTransaction extends State<ViewTransaction>{
           Expanded(
 
             child: new ListView.builder(
-                itemCount: data2.length,
+                itemCount: data.length,
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: ( context, int index) {
@@ -116,8 +186,8 @@ class _ViewTransaction extends State<ViewTransaction>{
                               flex:1,
                               child: Column(
                                 children: <Widget>[
-                                  Text(formatter.format(data2[index].time) ,),
-                                  Text(formatter2.format(data2[index].time) ),
+                                  Text(formatter.format(data[index].time) ,),
+                                  Text(formatter2.format(data[index].time) ),
                                 ],
                               )
                           ),
@@ -125,17 +195,17 @@ class _ViewTransaction extends State<ViewTransaction>{
                             padding: EdgeInsets.only(left: 10),
                           ),
                           Expanded( flex:2,
-                            child: Text(data2[index].uid.substring(1,20)),
+                            child: Text(data[index].uid.substring(1,20)),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
                           ),
-                          Expanded(child: Text(data2[index].amount,style:  TextStyle(color: data[index].type=="Debit"?Colors.redAccent:Colors.green),),
+                          Expanded(child: Text(data[index].amount,style:  TextStyle(color: data[index].type=="Debit"?Colors.redAccent:Colors.green),),
                             flex:1,
                           ),
 
                           Expanded( flex:1,
-                            child: Text(data2[index].currentBal),
+                            child: Text(data[index].currentBal),
                           ),
 
 

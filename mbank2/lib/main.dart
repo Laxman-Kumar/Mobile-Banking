@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
               display1: TextStyle(color: Color(0xFFA86E52))
           )
 
-      ),
-     // home:Login(),
+      ), //home:Login(),
       home:dashboard(),
       //home: CreateTransaction(),
       routes: <String, WidgetBuilder> {

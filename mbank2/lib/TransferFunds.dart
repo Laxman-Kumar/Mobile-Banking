@@ -18,7 +18,7 @@ class TransferMoney extends StatefulWidget{
 class _TransferMoney extends State<TransferMoney> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  String uid;
   bool otpfieldEnbled =false;
   String dialogText;
   String keyUpdateOther,keyUpdateOwn;
@@ -125,9 +125,8 @@ class _TransferMoney extends State<TransferMoney> {
 
     final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
       this.verificationId = verId;
-      showMessage("Otp is sent to your registered phone no. Please enter otp", Colors.blue);
+      showMessage("Otp is sent to your registered phone no.", Colors.blue);
       Future.delayed(Duration(seconds: 2),(){});
-      print("sending");
     };
 
     final PhoneVerificationCompleted verifiedSuccess = (FirebaseUser user) {
@@ -217,39 +216,33 @@ class _TransferMoney extends State<TransferMoney> {
 
     return new Scaffold(
         key: _scaffoldKey,
-        backgroundColor:Colors.white,
+        backgroundColor: Color(0xFF011c3f),
 
         appBar: AppBar(
           title: Text("Transfer Money",style: TextStyle(color: Colors.white),),
-          backgroundColor: Color(0xFFE64751),
-          elevation: 0.0,),
-
+          backgroundColor:  Color(0xFFbf2b46),
+          elevation: 3.0,),
 
         body: SingleChildScrollView(child:
         Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-
-              Container(
-                margin: EdgeInsets.only(top: 40)
-                ,child: new Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Text("Transfer Money",textAlign: TextAlign.center,style:TextStyle(fontSize: 18),)
-                  )
-                ],),),
-
-              Container(
-
+              Padding(padding: EdgeInsets.only(top: 60),),
+              Card(
+                shape:new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
+                 elevation: 2.0,
+                  margin:EdgeInsets.only(left: 40) ,
                   child:  new Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(8.0),
                       margin: EdgeInsets.only(top: 20),
-                      width: 250,
-                      color: Colors.transparent,
+                      width: 280,
+                      color:Colors.transparent,
                       child: new Container(
                           decoration:  new BoxDecoration(
-                              color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(25.0)
+                              color: Colors.transparent, borderRadius: new BorderRadius.all(Radius.circular(25.0)
                           )),
                           child:Form(key: _formKey,
                               autovalidate: true,
@@ -446,7 +439,8 @@ class _TransferMoney extends State<TransferMoney> {
         ),
         //this right here
         child: Container(
-            height: 100.0,
+          margin: EdgeInsets.all(16.0),
+            height: 150.0,
             width: 100,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -460,7 +454,10 @@ class _TransferMoney extends State<TransferMoney> {
                       child: Text("Dismiss"),
                       color: Colors.redAccent,
                       textColor: Colors.white,
-                      onPressed: (){Navigator.pop(context);}
+                      onPressed: (){
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
 
                   ),
                 )
@@ -470,6 +467,7 @@ class _TransferMoney extends State<TransferMoney> {
 
     );
   }
+
   void createTrans() async{
     var uuid = new Uuid();
     final key = 'private!!!!!!!!!';
@@ -478,15 +476,16 @@ class _TransferMoney extends State<TransferMoney> {
 
     final encrypter =new Encrypter(new Salsa20(key, iv));
 
+    showDialog(context: context, builder: (BuildContext context) => createLoadingDialog());
+
     await checkingForInfo();
 
     Future.delayed(Duration(seconds: 5), );
 
     if(keyUpdateOther!=null && keyUpdateOwn!=null) {
-      showMessage("Transaction is in process........", Colors.green);
 
       if (int.parse(currentBalance) < int.parse(balance.text)) {
-
+        Navigator.pop(context);
         showDialog(context: context, builder: (BuildContext context) => createDialogError());
         setState(() {
           otpVerification=false;
@@ -500,7 +499,7 @@ class _TransferMoney extends State<TransferMoney> {
         newBalance = int.parse(currentBalance) - int.parse(balance.text);
         currentBalance = newBalance.toString();
 
-        String uid = uuid.v1();
+         uid = uuid.v1();
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String accountNumber = prefs.getString('account');
@@ -539,11 +538,51 @@ class _TransferMoney extends State<TransferMoney> {
 
         Future.delayed(Duration(seconds: 2),);
         Navigator.pop(context);
+        showDialog(context: context, builder: (BuildContext context) => createSuccessDialog());
 
       }
     }
   }
 
+
+  Dialog createSuccessDialog() {
+    return  Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),
+        ),
+        //this right here
+        child: Container(
+            margin: EdgeInsets.all(8.0),
+            height: 150.0,
+            width: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Center(
+                  child: Text("₹ "+balance.text+" has been successfully transferred to the "+accountno.text+" with your transaction id "+uid.substring(0,10),style: TextStyle(fontSize: 17),),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                ),
+                Center(
+                  child: RaisedButton(
+                      child: Text("Dismiss"),
+                      color: Colors.redAccent,
+                      textColor: Colors.white,
+                      onPressed: (){
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
+
+                  ),
+                )
+
+              ],
+            ))
+
+    );
+  }
 
   @override
   void dispose() {
